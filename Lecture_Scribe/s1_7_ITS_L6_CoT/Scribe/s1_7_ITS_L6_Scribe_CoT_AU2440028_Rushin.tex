@@ -1,0 +1,309 @@
+\documentclass[11pt]{article}
+
+% ===================== PACKAGES =====================
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{setspace}
+
+% ===================== HEADER & FOOTER =====================
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{CSE 400: Fundamentals of Probability in Computing}
+\rhead{Lecture 6 Scribe}
+\cfoot{\thepage}
+
+% ===================== TITLE =====================
+\title{
+    \normalsize School of Engineering and Applied Sciences, Ahmedabad University \\
+    \vspace{0.2cm}
+    \textbf{CSE 400: Fundamentals of Probability in Computing} \\
+    \vspace{0.2cm}
+    \Large Lecture 6: Discrete RVs, Expectation and Problem Solving
+}
+
+\date{}
+
+\begin{document}
+\maketitle
+\onehalfspacing
+
+% ==========================================================
+\section{Previous Lecture Recap: Random Variables (RVs)}
+
+\subsection{Motivation and Concept of a Random Variable}
+
+A \textbf{random variable} is a variable whose value depends on the outcome of a random experiment.
+
+From the lecture:
+\begin{itemize}
+    \item The \textbf{distribution of a random variable} can be visualized as a \textbf{bar diagram}.
+    \item The \textbf{x-axis} represents the values that the random variable can take.
+    \item The \textbf{height of the bar} at value $a_i$ represents
+    \[
+        \Pr[X = a_i]
+    \]
+    \item Each probability is computed by finding the probability of the \textbf{corresponding event in the sample space}.
+\end{itemize}
+
+% ==========================================================
+\subsection{Random Variable Example}
+
+\textbf{Example 1: Tossing 3 Fair Coins}
+
+Let:
+\begin{itemize}
+    \item The experiment consist of tossing \textbf{3 fair coins}
+    \item $Y$ = number of heads observed
+\end{itemize}
+
+Possible values of $Y$:
+\[
+Y \in \{0,1,2,3\}
+\]
+
+Step-by-step computation of probabilities:
+\begin{itemize}
+    \item $\Pr(Y = 0) = \Pr(t,t,t) = \frac{1}{8}$
+    \item $\Pr(Y = 1) = \Pr(t,t,h), \Pr(t,h,t), \Pr(h,t,t) = \frac{3}{8}$
+    \item $\Pr(Y = 2) = \Pr(h,h,t), \Pr(h,t,h), \Pr(t,h,h) = \frac{3}{8}$
+    \item $\Pr(Y = 3) = \Pr(h,h,h) = \frac{1}{8}$
+\end{itemize}
+
+Verification:
+\[
+\sum_{i=0}^{3} \Pr(Y=i) = \frac{1}{8}+\frac{3}{8}+\frac{3}{8}+\frac{1}{8} = 1
+\]
+
+% ==========================================================
+\section{Probability Mass Function (PMF)}
+
+\subsection{Concept}
+
+A random variable that can take \textbf{at most a countable number of values} is called a \textbf{discrete random variable}.
+
+Let:
+\begin{itemize}
+    \item $X$ be a discrete random variable
+    \item Range:
+    \[
+    R_X = \{x_1, x_2, x_3, \dots\}
+    \]
+\end{itemize}
+
+The function:
+\[
+P_X(x_k) = \Pr(X = x_k), \quad k = 1,2,3,\dots
+\]
+is called the \textbf{Probability Mass Function (PMF)} of $X$.
+
+Property:
+\[
+\sum_{k=1}^{\infty} P_X(x_k) = 1
+\]
+
+% ==========================================================
+\subsection{PMF Example (Given in Lecture)}
+
+The PMF of a random variable $X$ is given by:
+\[
+p(i) = c \frac{\lambda^i}{i!}, \quad i = 0,1,2,\dots
+\]
+where $\lambda > 0$.
+
+\subsubsection*{Step 1: Use normalization condition}
+
+\[
+\sum_{i=0}^{\infty} p(i) = 1
+\]
+
+\[
+c \sum_{i=0}^{\infty} \frac{\lambda^i}{i!} = 1
+\]
+
+Using:
+\[
+e^\lambda = \sum_{i=0}^{\infty} \frac{\lambda^i}{i!}
+\]
+
+So:
+\[
+c e^\lambda = 1
+\Rightarrow c = e^{-\lambda}
+\]
+
+\subsubsection*{Step 2: Compute $\Pr[X = 0]$}
+
+\[
+\Pr[X=0] = e^{-\lambda} \frac{\lambda^0}{0!} = e^{-\lambda}
+\]
+
+\subsubsection*{Step 3: Compute $\Pr[X > 2]$}
+
+\[
+\Pr[X>2] = 1 - \Pr[X \le 2]
+\]
+
+\[
+= 1 - \left( \Pr[X=0] + \Pr[X=1] + \Pr[X=2] \right)
+\]
+
+\[
+= 1 - \left( e^{-\lambda} + \lambda e^{-\lambda} + \frac{\lambda^2}{2} e^{-\lambda} \right)
+\]
+
+% ==========================================================
+\section{Independent Events}
+
+\subsection{Definition}
+
+Two events $A$ and $B$ are \textbf{independent} if:
+\[
+\Pr(A \cap B) = \Pr(A)\Pr(B)
+\]
+
+% ==========================================================
+\section{Bayes’ Theorem (Recap)}
+
+\subsection{Bayes’ Formula}
+
+Using:
+\[
+\Pr(A \cap B) = \Pr(B|A)\Pr(A)
+\]
+
+We obtain:
+\[
+\Pr(B_i|A) = \frac{\Pr(A|B_i)\Pr(B_i)}{\sum_{j=1}^{n} \Pr(A|B_j)\Pr(B_j)}
+\]
+
+This is known as \textbf{Bayes’ Formula (Proposition 3.1)}.
+
+Definitions:
+\begin{itemize}
+    \item $\Pr(B_i)$: a priori probability
+    \item $\Pr(B_i|A)$: posterior probability
+\end{itemize}
+
+% ==========================================================
+\subsection{Bayes’ Theorem Example 1: Auditorium with 30 Rows}
+
+Given:
+\begin{itemize}
+    \item 30 rows
+    \item Row 1 has 11 seats
+    \item Row 2 has 12 seats
+    \item \dots
+    \item Row 30 has 40 seats
+\end{itemize}
+
+Procedure:
+\begin{enumerate}
+    \item A row is selected uniformly at random
+    \item A seat is selected uniformly within the chosen row
+\end{enumerate}
+
+Compute:
+\begin{itemize}
+    \item $\Pr(\text{Seat 15} \mid \text{Row 20})$
+    \item $\Pr(\text{Row 20} \mid \text{Seat 15})$
+\end{itemize}
+
+\[
+\Pr(S_{15} | R_{20}) = \frac{1}{30}
+\]
+
+\[
+\Pr(S_{15}) = \sum_{k=5}^{30} \Pr(S_{15} | R_k)\Pr(R_k)
+\]
+
+\[
+= \sum_{k=5}^{30} \frac{1}{k+10} \cdot \frac{1}{30}
+\]
+
+\[
+\Pr(R_{20}|S_{15}) = \frac{\Pr(S_{15}|R_{20})\Pr(R_{20})}{\Pr(S_{15})}
+\]
+
+% ==========================================================
+\section{Types of Discrete Random Variables}
+
+\begin{itemize}
+    \item \textbf{Bernoulli Random Variable}: Single trial, two outcomes
+    \item \textbf{Binomial Random Variable}: Fixed number of trials, independent trials, same probability of success
+    \item \textbf{Geometric Random Variable}: Counts trials until first success
+    \item \textbf{Poisson Random Variable}: Models count of events in fixed interval
+\end{itemize}
+
+% ==========================================================
+\section{Expectation of Random Variables}
+
+\subsection{Definition}
+
+\[
+\mathbb{E}[X] = \sum_x x \Pr(X=x)
+\]
+
+\subsection{Expectation of a Function of a Random Variable}
+
+\[
+\mathbb{E}[g(X)] = \sum_x g(x)\Pr(X=x)
+\]
+
+\subsection{Linearity of Expectation}
+
+\[
+\mathbb{E}[aX+b] = a\mathbb{E}[X] + b
+\]
+
+\subsection{Moments and Central Moments}
+
+\begin{itemize}
+    \item Variance:
+    \[
+    \text{Var}(X) = \mathbb{E}[(X-\mu)^2]
+    \]
+    \item Skewness: third central moment
+    \item Kurtosis: fourth central moment
+\end{itemize}
+
+% ==========================================================
+\section{Cumulative Distribution Function (CDF)}
+
+\subsection{Definition}
+
+\[
+F_X(x) = \Pr(X \le x)
+\]
+
+\subsection{Properties}
+
+\begin{itemize}
+    \item Non-decreasing
+    \item $\lim_{x\to -\infty} F_X(x)=0$
+    \item $\lim_{x\to \infty} F_X(x)=1$
+\end{itemize}
+
+% ==========================================================
+\section{Probability Density Function (PDF)}
+
+\subsection{Definition}
+
+\[
+f_X(x) = \frac{d}{dx} F_X(x)
+\]
+
+\subsection{Property}
+
+\[
+\int_{-\infty}^{\infty} f_X(x)\,dx = 1
+\]
+
+\vfill
+\begin{center}
+\textbf{End of Lecture 6 Scribe — Strictly Aligned with Course Slides}
+\end{center}
+
+\end{document}
