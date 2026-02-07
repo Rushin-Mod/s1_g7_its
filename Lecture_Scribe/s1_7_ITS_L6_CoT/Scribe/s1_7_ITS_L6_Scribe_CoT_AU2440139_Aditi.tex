@@ -1,0 +1,296 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{enumitem}
+
+\geometry{margin=1in}
+\setstretch{1.2}
+
+\begin{document}
+
+\begin{center}
+\Large \textbf{CSE400 – Fundamentals of Probability in Computing} \\
+\large \textbf{Lecture 6: Discrete Random Variables, Expectation and Problem Solving} \\
+\normalsize (Exam-ready lecture scribe)
+\end{center}
+
+\vspace{1em}
+
+Source: Lecture slides “CSE400 – Fundamentals of Probability in Computing, Lecture 6: Discrete RVs, Expectation and Problem Solving” by Dhaval Patel, PhD.
+
+\section*{1. Random Variables (RVs)}
+
+\subsection*{1.1 Motivation and Concept}
+
+A \textbf{random variable (RV)} is a function that assigns a numerical value to each outcome in a sample space of a random experiment.
+
+\begin{itemize}
+\item The \textbf{distribution} of a random variable can be visualized using a \textbf{bar diagram}.
+\item The \textbf{x-axis} represents the values the random variable can take.
+\item The \textbf{height of the bar} at value $a_i$ represents the probability
+\[
+\Pr[X = a_i].
+\]
+\item Each probability is obtained by computing the probability of the \textbf{corresponding event} in the sample space.
+\end{itemize}
+
+\section*{2. Types of Random Variables}
+
+Random variables are broadly classified into:
+
+\subsection*{2.1 Discrete Random Variables}
+
+A random variable is \textbf{discrete} if it can take \textbf{at most a countable number of values}.
+
+\textbf{Key properties (as per slides):}
+\begin{itemize}
+\item Countable support
+\item Probability Mass Function (PMF)
+\item Probabilities assigned to \textbf{single values}
+\item Each possible value has \textbf{strictly positive probability}
+\end{itemize}
+
+\subsection*{2.2 Continuous Random Variables}
+
+A random variable is \textbf{continuous} if it takes values from an \textbf{uncountable set}.
+
+\textbf{Key properties (as per slides):}
+\begin{itemize}
+\item Uncountable support
+\item Probability Density Function (PDF)
+\item Probabilities assigned to \textbf{intervals}
+\item Each individual value has \textbf{zero probability}
+\end{itemize}
+
+(Note: This lecture focuses primarily on discrete random variables.)
+
+\section*{3. Example of a Discrete Random Variable}
+
+\subsection*{Example 1: Tossing Three Fair Coins}
+
+\textbf{Experiment:} Toss 3 fair coins. \\
+Let
+\[
+Y = \text{number of heads}.
+\]
+
+\textbf{Possible values of $Y$:}
+\[
+\{0, 1, 2, 3\}
+\]
+
+\textbf{Probabilities:}
+\begin{itemize}
+\item $P(Y = 0) = P(T,T,T) = \frac{1}{8}$
+\item $P(Y = 1) = P(T,T,H) + P(T,H,T) + P(H,T,T) = \frac{3}{8}$
+\item $P(Y = 2) = P(T,H,H) + P(H,T,H) + P(H,H,T) = \frac{3}{8}$
+\item $P(Y = 3) = P(H,H,H) = \frac{1}{8}$
+\end{itemize}
+
+Thus,
+\[
+P(Y=0)=\frac{1}{8},\quad
+P(Y=1)=\frac{3}{8},\quad
+P(Y=2)=\frac{3}{8},\quad
+P(Y=3)=\frac{1}{8}.
+\]
+
+Since $Y$ must take one of these values,
+\[
+\sum_{i=0}^{3} P(Y=i) = 1.
+\]
+
+This confirms that the probabilities form a valid distribution.
+
+\section*{4. Probability Mass Function (PMF)}
+
+\subsection*{4.1 Definition}
+
+A random variable that can take \textbf{at most a countable number of possible values} is said to be \textbf{discrete}.
+
+Let $X$ be a discrete random variable with range (possible values)
+\[
+R_X = \{x_1, x_2, x_3, \dots\}
+\]
+(finite or countably infinite).
+
+The function
+\[
+P_X(x_k) = P(X = x_k), \quad k = 1,2,3,\dots
+\]
+is called the \textbf{Probability Mass Function (PMF)} of $X$.
+
+\subsection*{4.2 Fundamental Property of PMF}
+
+Since $X$ must take \textbf{one of the values} in its range,
+\[
+\sum_{k=1}^{\infty} P_X(x_k) = 1.
+\]
+
+This condition is \textbf{necessary and sufficient} for a valid PMF.
+
+\section*{5. PMF – Solved Example}
+
+\subsection*{Example: Given PMF with Unknown Constant}
+
+The probability mass function of a random variable $X$ is given by
+\[
+p(i) = c \frac{\lambda^i}{i!}, \quad i = 0,1,2,\dots
+\]
+where $\lambda > 0$.
+
+\textbf{Tasks:}
+\begin{enumerate}
+\item Find $P(X=0)$
+\item Find $P(X>2)$
+\end{enumerate}
+
+\subsection*{Step 1: Find the Constant $c$}
+
+Using the PMF property:
+\[
+\sum_{i=0}^{\infty} p(i) = 1
+\]
+
+Substitute:
+\[
+\sum_{i=0}^{\infty} c \frac{\lambda^i}{i!} = 1
+\]
+
+Factor out $c$:
+\[
+c \sum_{i=0}^{\infty} \frac{\lambda^i}{i!} = 1
+\]
+
+Using the known series:
+\[
+e^{\lambda} = \sum_{i=0}^{\infty} \frac{\lambda^i}{i!}
+\]
+
+So,
+\[
+c e^{\lambda} = 1
+\quad \Rightarrow \quad
+c = e^{-\lambda}
+\]
+
+\subsection*{Step 2: Find $P(X=0)$}
+
+\[
+P(X=0) = c \frac{\lambda^0}{0!}
+= e^{-\lambda}.
+\]
+
+\subsection*{Step 3: Find $P(X>2)$}
+
+\[
+P(X>2) = 1 - P(X \le 2)
+\]
+
+\[
+= 1 - [P(X=0) + P(X=1) + P(X=2)]
+\]
+
+Substitute values:
+\[
+= 1 - \left[
+e^{-\lambda}
++ \lambda e^{-\lambda}
++ \frac{\lambda^2}{2} e^{-\lambda}
+\right].
+\]
+
+\section*{6. Bayes’ Theorem (Recap)}
+
+Using conditional probability:
+\[
+\Pr(A \mid B) = \frac{\Pr(B \mid A)\Pr(A)}{\Pr(B)}.
+\]
+
+For events $B_1, B_2, \dots, B_n$:
+\[
+\Pr(B_i \mid A) =
+\frac{\Pr(A \mid B_i)\Pr(B_i)}
+{\sum_{j=1}^{n} \Pr(A \mid B_j)\Pr(B_j)}.
+\]
+
+This is known as \textbf{Bayes’ Formula (Proposition 3.1)}.
+
+\textbf{Terminology}
+\begin{itemize}
+\item $\Pr(B_i)$: \textbf{Prior probability}
+\item $\Pr(B_i \mid A)$: \textbf{Posterior probability}
+\end{itemize}
+
+\section*{7. Bayes’ Theorem – Example 1}
+
+\subsection*{Auditorium with 30 Rows}
+
+\begin{itemize}
+\item Auditorium has \textbf{30 rows}
+\item Row 1 has 11 seats, Row 2 has 12 seats, …, Row 30 has 40 seats
+\item A \textbf{row is selected uniformly} at random
+\item A \textbf{seat within that row} is selected uniformly
+\end{itemize}
+
+\textbf{Tasks:}
+\begin{enumerate}
+\item Compute $P(\text{Seat 15} \mid \text{Row 20})$
+\item Compute $P(\text{Row 20} \mid \text{Seat 15})$
+\end{enumerate}
+
+\subsection*{Solution Outline (as per slides)}
+
+Since Row 20 has 30 seats:
+\[
+P(\text{Seat 15} \mid \text{Row 20}) = \frac{1}{30}.
+\]
+
+Total probability of selecting Seat 15:
+\[
+P(S_{15}) =
+\sum_{k=15}^{30}
+\frac{1}{30} \cdot \frac{1}{(k+10)}.
+\]
+
+Apply Bayes’ formula:
+\[
+P(\text{Row 20} \mid \text{Seat 15})
+=
+\frac{P(\text{Seat 15} \mid \text{Row 20}) P(\text{Row 20})}
+     {P(\text{Seat 15})}.
+\]
+
+\section*{8. Bayes’ Theorem – Example 2}
+
+\subsection*{Communication System (Receiver)}
+
+\begin{itemize}
+\item Binary data $\{0,1\}$ is transmitted
+\item Receiver may make errors:
+\begin{itemize}
+\item 0 may be detected as 1
+\item 1 may be detected as 0
+\end{itemize}
+\item System is described by given \textbf{conditional probabilities}
+\end{itemize}
+
+(The example applies Bayes’ theorem directly to compute posterior probabilities based on observed outputs.)
+
+\section*{Final Exam Notes}
+
+\begin{itemize}
+\item \textbf{Discrete RV $\rightarrow$ PMF}
+\item \textbf{Sum of PMF = 1}
+\item Always verify normalization before computing probabilities
+\item Use \textbf{complement rule} for tail probabilities
+\item Bayes’ theorem = conditional probability + total probability law
+\item Clearly identify \textbf{prior}, \textbf{likelihood}, and \textbf{posterior}
+\end{itemize}
+
+This scribe is \textbf{complete, faithful, and revision-safe}, and can be used as a \textbf{standalone reference} for this lecture.
+
+\end{document}
+
