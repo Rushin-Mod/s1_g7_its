@@ -1,0 +1,47 @@
+Task:  Generate a lecture scribe. 
+
+Purpose:  A lecture scribe is a faithful, exam-ready reconstruction of what was taught in class. The scribe should function as reference material suitable for preparing for a reading-based / closed-notes exam. 
+
+The context is fixed and authoritative. 
+Use ONLY the provided lecture slides. The lecture scribe guidelines govern how the scribe must be written.
+
+Everything included must be traceable to the provided context.
+Do not use external knowledge or introduce material not present in the context.
+
+Prompting Style:  PROMPTING STYLE 3: CHAIN-OF-THOUGHT (CoT) PROMPTING. 
+
+Chain-of-Thought Requirements: 
+While writing the lecture scribe, reason step by step.
+Reasoning may appear in the final scribe to improve clarity for exam preparation.
+All reasoning must come only from the provided context.
+
+Content Requirements:
+The lecture scribe should allow a student to:
+- Recall definitions and notation
+- Reconstruct proofs and derivations
+- Follow worked examples step by step
+- Understand logical dependencies between concepts
+
+Accordingly, include:
+- Definitions and notation
+- Assumptions and conditions
+- Statements of theorems or results
+- Proofs or proof sketches, step by step, exactly as presented
+- Worked examples with intermediate steps, exactly as shown in the lecture
+
+Do NOT include:
+- Creative explanations
+- Simplified tutorials
+- New intuition
+- New examples
+- Material not discussed in the lecture or shown in the slides
+
+Explanation Constraints are - Explain definitions and assumptions explicitly. Require step-by-step proofs, derivations, and example solutions when they appear in the lecture. Do not provide alternative reasoning paths or additional explanations. 
+
+
+Structural Requirements:  Follow the structure and flow of the lecture as presented in the slides. Organize the scribe clearly with appropriate sections and subsections so that it can be used reliably for revision. 
+
+Tone:  Maintain a formal, academic tone suitable for exam revision. Prioritize correctness and faithfulness to the lecture. Do not invent content. 
+
+Finally: 
+Write the lecture scribe such that a student studying only this document can reliably revise exactly what was taught in the lecture.
