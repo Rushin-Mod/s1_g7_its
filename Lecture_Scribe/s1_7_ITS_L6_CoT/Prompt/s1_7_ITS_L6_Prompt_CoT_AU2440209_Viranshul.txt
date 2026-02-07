@@ -1,0 +1,18 @@
+I would like you to create a lecture scribe of the ppt of lecture that I have sent you here. It is this scribe that must be prepared in terms of the exam.
+Only the lecture slides that have been provided should be used. Do not use any outside knowledge, internet facts, and your own training data that are not in the slides. And also cover everything on the slide including worked examples which are in lecture ppt. 
+When you are making this scribe, you have to work out in stages.
+Logical division: Deconstruct all the definitions, derivations and examples.
+Provide explicit steps of reasoning: The steps in the reasoning process should be written down in a transparent way in the final scribe for ease of understanding for exam preparation. 
+Source of reasoning: everything should be as per the lecture slides, the source of reasoning and explanation should not be of own invention and intuition.
+Content Requirements:
+Insert all the definitions and notations as they are presented.
+Write out proofs and derivations: Do them one step at a time without omitting anything.
+To worked examples: Present the solution with every in-between figure as that presented by the lecturer.
+Form: Observe the flow and sequence of the slides strictly. Use clear headings.
+Do NOT:
+Please, add no creative explanations, simplify nothing.
+Do not include any new examples not featured in the slides.
+The step by step logic must not be omitted.
+The end product must be academic and formal, also appropriate to preparation of exams.
+
+

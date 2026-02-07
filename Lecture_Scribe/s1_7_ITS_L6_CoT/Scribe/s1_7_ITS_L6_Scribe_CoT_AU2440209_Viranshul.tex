@@ -1,0 +1,165 @@
+\documentclass[11pt]{article}
+
+% ===================== PACKAGES =====================
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{xcolor} 
+
+% ===================== HEADER & FOOTER =====================
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{CSE 400: Fundamentals of Probability in Computing}
+\rhead{Lecture 6 Scribe}
+\cfoot{\thepage}
+
+% ===================== TITLE =====================
+\title{
+    \normalsize School of Engineering and Applied Science (SEAS), Ahmedabad University \\
+    \vspace{0.2cm}
+    \textbf{CSE 400: Fundamentals of Probability in Computing}\\
+    \Large Lecture 6 Scribe: Discrete Random Variables \& Expectation
+}
+\author{Instructor: Dhaval Patel, PhD} 
+\date{}
+
+\begin{document}
+\maketitle
+
+\vspace{-1cm}
+\begin{center}
+    \begin{tabular}{ll}
+        \textbf{Date:} & {January 22, 2025 \hspace{2.2in}} \\ [1.5ex]
+    \end{tabular}
+\end{center}
+
+\hrule
+\vspace{0.5cm}
+
+% ===================== CONTENT =====================
+
+\section{Random Variables – Motivation and Concept}
+A \textbf{Random Variable (RV)} is a function that assigns a real number to each outcome in the sample space.
+
+\subsection*{Visualization of a Random Variable}
+The distribution of a random variable can be visualized as a bar diagram:
+\begin{itemize}
+    \item The x-axis represents the values that the random variable can take.
+    \item The height of the bar at value $a_i$ is the probability $\Pr[X = a_i]$.
+    \item Each probability $\Pr[X = a_i]$ is computed by evaluating the probability of the corresponding event in the sample space.
+\end{itemize}
+
+\section{Discrete and Continuous Random Variables}
+
+\subsection{Discrete Random Variable}
+A random variable is considered \textbf{discrete} if:
+\begin{itemize}
+    \item It has countable support.
+    \item It is described using a \textbf{Probability Mass Function (PMF)}.
+    \item Probabilities are assigned to single values.
+    \item Each possible value has strictly positive probability.
+\end{itemize}
+
+\subsection{Continuous Random Variable}
+A random variable is considered \textbf{continuous} if:
+\begin{itemize}
+    \item It has uncountable support.
+    \item It is described using a \textbf{Probability Density Function (PDF)}.
+    \item Probabilities are assigned to \textit{intervals} of values.
+    \item Each individual value has zero probability.
+\end{itemize}
+
+\section{Example 1 – Tossing 3 Fair Coins}
+\textbf{Problem Setup:} The experiment consists of tossing 3 fair coins. Let $Y$ denote the number of heads that appear.
+The possible values of $Y$ are $Y \in \{0, 1, 2, 3\}$.
+
+\subsection*{Computation of Probabilities}
+Each single outcome of 3 fair coin tosses (e.g., $h,t,h$) has a probability of $\frac{1}{8}$.
+
+\begin{itemize}
+    \item \textbf{P(Y = 0):} $\{t,t,t\}$
+    \[ P(Y = 0) = \frac{1}{8} \]
+    
+    \item \textbf{P(Y = 1):} $\{t,t,h\}, \{t,h,t\}, \{h,t,t\}$
+    \[ P(Y = 1) = \frac{3}{8} \]
+    
+    \item \textbf{P(Y = 2):} $\{t,h,h\}, \{h,t,h\}, \{h,h,t\}$
+    \[ P(Y = 2) = \frac{3}{8} \]
+    
+    \item \textbf{P(Y = 3):} $\{h,h,h\}$
+    \[ P(Y = 3) = \frac{1}{8} \]
+\end{itemize}
+
+\subsection*{Verification of Total Probability}
+Since $Y$ must take one of the values $\{0,1,2,3\}$:
+\[ \sum_{i=0}^{3} P(Y=i) = \frac{1}{8} + \frac{3}{8} + \frac{3}{8} + \frac{1}{8} = 1 \]
+
+\section{Probability Mass Function (PMF)}
+\textbf{Definition:} A random variable $X$ is discrete if it takes on at most a countable number of possible values.
+Range: $R_X = \{x_1, x_2, x_3, \dots\}$ (finite or countably infinite).
+
+The function $P_X(x_k) = P(X = x_k)$ for $k = 1,2,3,\dots$ is called the \textbf{Probability Mass Function (PMF)} of $X$.
+
+\textbf{Property:}
+\[ \sum_{k=1}^{\infty} P_X(x_k) = 1 \]
+
+\section{PMF – Worked Example}
+\textbf{Problem:} The PMF of a random variable $X$ is given by:
+\[ p(i) = c \frac{\lambda^i}{i!}, \quad i = 0,1,2,\dots \quad (\text{where } \lambda > 0) \]
+Find $P(X=0)$ and $P(X > 2)$.
+
+\subsection*{Step 1: Determine the Constant $c$}
+Using the property that total probability sums to 1:
+\[ \sum_{i=0}^{\infty} p(i) = 1 \implies \sum_{i=0}^{\infty} c \frac{\lambda^i}{i!} = 1 \]
+\[ c \sum_{i=0}^{\infty} \frac{\lambda^i}{i!} = 1 \]
+Using the Taylor series expansion $e^{\lambda} = \sum_{i=0}^{\infty} \frac{\lambda^i}{i!}$:
+\[ c e^{\lambda} = 1 \implies c = e^{-\lambda} \]
+
+\subsection*{Step 2: Compute $P(X = 0)$}
+\[ P(X = 0) = c \frac{\lambda^0}{0!} = e^{-\lambda} \cdot 1 = e^{-\lambda} \]
+
+\subsection*{Step 3: Compute $P(X > 2)$}
+\[ P(X > 2) = 1 - P(X \le 2) \]
+\[ P(X \le 2) = P(X=0) + P(X=1) + P(X=2) \]
+\[ P(X \le 2) = e^{-\lambda} + e^{-\lambda}\frac{\lambda^1}{1!} + e^{-\lambda}\frac{\lambda^2}{2!} \]
+\[ P(X > 2) = 1 - e^{-\lambda} \left( 1 + \lambda + \frac{\lambda^2}{2} \right) \]
+
+\section{Bayes’ Theorem – Recap}
+Using the definition of conditional probability $\Pr(A \cap B_i) = \Pr(B_i \mid A)\Pr(A)$, we obtain Bayes' Formula:
+\[ \Pr(B_i \mid A) = \frac{\Pr(A \mid B_i)\Pr(B_i)}{\sum_{j=1}^{n} \Pr(A \mid B_j)\Pr(B_j)} \]
+\begin{itemize}
+    \item $\Pr(B_i)$: \textbf{A priori} probability
+    \item $\Pr(B_i \mid A)$: \textbf{Posterior} probability
+\end{itemize}
+
+\section{Bayes’ Theorem – Example 1: Auditorium}
+\textbf{Problem:} An auditorium has 30 rows.
+\begin{itemize}
+    \item Row $k$ has $k+10$ seats (Row 1 has 11, Row 30 has 40).
+    \item A door prize is given by randomly selecting a row (equally likely, $1/30$), then a seat within that row.
+\end{itemize}
+Let $S_{15}$ be the event that Seat 15 is chosen. Let $R_k$ be the event Row $k$ is chosen.
+Note: Seat 15 only exists in rows where total seats $\ge 15$. Since seats $= k+10$, we need $k+10 \ge 15 \implies k \ge 5$.
+
+\subsection*{1. Computation of $P(S_{15})$}
+\[ P(S_{15}) = \sum_{k=5}^{30} P(S_{15} \mid R_k) P(R_k) \]
+\[ = \sum_{k=5}^{30} \left( \frac{1}{k+10} \right) \cdot \frac{1}{30} \]
+\[ = \frac{1}{30} \sum_{k=5}^{30} \frac{1}{k+10} \approx 0.0342 \]
+
+\subsection*{2. Conditional Probability $P(R_{20} \mid S_{15})$}
+Given that Seat 15 was picked, what is the probability it came from Row 20?
+\[ P(R_{20} \mid S_{15}) = \frac{P(S_{15} \mid R_{20})P(R_{20})}{P(S_{15})} \]
+\[ = \frac{\left(\frac{1}{30}\right) \cdot \left(\frac{1}{30}\right)}{0.0342} \approx 0.0325 \]
+
+\section{Bayes’ Theorem – Example 2: Communication System}
+A communication system sends binary data (0 or 1). The receiver $RX$ may make mistakes (0 detected as 1, or 1 detected as 0). The system is modeled using conditional probabilities of detection given the transmitted bit.
+
+\bigskip
+\hrule
+\vspace{0.2cm}
+\begin{center}
+    \small \textit{End of Lecture 6 Scribe}
+\end{center}
+
+\end{document}
