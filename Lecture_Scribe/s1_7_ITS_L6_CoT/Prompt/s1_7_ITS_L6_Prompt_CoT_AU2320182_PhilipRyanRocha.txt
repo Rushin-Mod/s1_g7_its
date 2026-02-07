@@ -1,0 +1,2 @@
+I want you to generate a lecture scribe for the PDF lecture slides ive uploaded. while youre at it, be very precise with the steps and reasonably mention any assumptions, proofs, definitions and examples solutions exactly as presented in the provided lecture slides. Make a proper logical flow so that any student can follow the reasoning at the time of revision. DO NOT INTRODUCE ANY NEW MATERIAL THAT IS NOT MENTIONED IN THE UPLOADED DOCUMENT.
+
