@@ -1,0 +1,311 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{setspace}
+\usepackage{enumitem}
+
+\setstretch{1.15}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\begin{document}
+
+\textbf{CSE400 – Fundamentals of Probability in Computing}
+
+\textbf{Lecture 6: Discrete Random Variables, Expectation and Problem Solving}
+
+Instructor: Dhaval Patel, PhD
+
+Date: January 22, 2025
+
+\vspace{1em}
+
+\textbf{1. Random Variables: Motivation and Concept}
+
+\textbf{Definition}
+
+A random variable (RV) is a function that maps outcomes from a sample space to numerical values.
+
+Instead of working directly with outcomes (e.g., coin toss sequences), we work with numbers derived from them.
+
+This allows us to assign probabilities to numerical values.
+
+\textbf{Visualization (as per slides)}
+
+The distribution of a random variable can be visualized using a bar diagram.
+
+The x-axis represents the possible values of the random variable.
+
+The height of the bar at value represents:
+
+Each probability is computed from the probability of the corresponding event in the sample space.
+
+\vspace{0.5em}
+
+\textbf{2. Types of Random Variables}
+
+\textbf{2.1 Discrete Random Variables}
+
+A random variable is discrete if:
+\begin{itemize}[leftmargin=2em]
+\item It has countable support
+\item Probabilities are assigned to single values
+\item Each possible value has strictly positive probability
+\item It is described using a Probability Mass Function (PMF)
+\end{itemize}
+
+\textbf{2.2 Continuous Random Variables (for contrast only)}
+
+\begin{itemize}[leftmargin=2em]
+\item Have uncountable support
+\item Described using a Probability Density Function (PDF)
+\item Probabilities are assigned to intervals
+\item Each exact value has zero probability
+\end{itemize}
+
+(Note: No continuous RV calculations are performed in this lecture.)
+
+\vspace{0.5em}
+
+\textbf{3. Example 1: Tossing 3 Fair Coins}
+
+\textbf{Experiment Description}
+
+Toss 3 fair coins
+
+Let random variable $Y =$ number of heads observed
+
+$a_i$
+
+$\Pr[X = a_i]$
+
+\textbf{Possible Values of $Y$}
+
+\[
+Y \in \{0,1,2,3\}
+\]
+
+\textbf{Probability Calculations}
+
+\[
+P(Y = 0) = P(t,t,t) = \frac{1}{8}
+\]
+
+\[
+P(Y = 1) = P(t,t,h) + P(t,h,t) + P(h,t,t) = \frac{3}{8}
+\]
+
+\[
+P(Y = 2) = P(t,h,h) + P(h,t,h) + P(h,h,t) = \frac{3}{8}
+\]
+
+\[
+P(Y = 3) = P(h,h,h) = \frac{1}{8}
+\]
+
+\textbf{Probability Distribution Summary}
+
+\[
+P(Y=0)=\frac{1}{8},\;
+P(Y=1)=\frac{3}{8},\;
+P(Y=2)=\frac{3}{8},\;
+P(Y=3)=\frac{1}{8}
+\]
+
+\textbf{Total Probability Check (Assumption: RV must take exactly one value)}
+
+\[
+1 = P\left(\bigcup_{i=0}^{3} \{Y=i\}\right)
+  = \sum_{i=0}^{3} P(Y=i)
+\]
+
+\vspace{0.5em}
+
+\textbf{4. Probability Mass Function (PMF)}
+
+\textbf{Definition}
+
+A random variable that can take at most a countable number of values is called discrete.
+
+Let $X$ be a discrete random variable.
+
+Range (possible values):
+
+\[
+R_X = \{x_1, x_2, x_3, \dots\} \quad \text{(finite or countably infinite)}
+\]
+
+\textbf{PMF Definition}
+
+The function
+\[
+P_X(x_k) = P(X = x_k), \quad k = 1,2,3,\dots
+\]
+is called the Probability Mass Function (PMF) of $X$.
+
+\textbf{Fundamental Property of PMF}
+
+Since $X$ must take one of the possible values:
+\[
+\sum_{x \in R_X} P_X(x) = 1
+\]
+
+\vspace{0.5em}
+
+\textbf{5. PMF Example: Given Functional Form}
+
+\textbf{Problem Statement}
+
+The PMF of a random variable $X$ is:
+\[
+p(i) = c \frac{\lambda^i}{i!}, \quad i = 0,1,2,\dots
+\]
+where $\lambda > 0$.
+
+Find:
+\begin{enumerate}[leftmargin=2em]
+\item $P(X = 0)$
+\item $P(X > 2)$
+\end{enumerate}
+
+\textbf{Step 1: Find the Constant}
+
+Using the PMF property:
+\[
+\sum_{i=0}^{\infty} p(i) = 1
+\]
+
+Substitute:
+\[
+c \sum_{i=0}^{\infty} \frac{\lambda^i}{i!} = 1
+\]
+
+Using the known series expansion:
+\[
+\sum_{i=0}^{\infty} \frac{\lambda^i}{i!} = e^{\lambda}
+\]
+
+Thus:
+\[
+c e^{\lambda} = 1 \Rightarrow c = e^{-\lambda}
+\]
+
+\textbf{Step 2: Compute}
+\[
+P(X = 0) = e^{-\lambda}
+\]
+
+\textbf{Step 3: Compute}
+
+Using complement:
+\[
+P(X > 2) = 1 - \left(P(X=0) + P(X=1) + P(X=2)\right)
+\]
+
+\vspace{0.5em}
+
+\textbf{6. Bayes’ Theorem (Recap)}
+
+\textbf{Starting Point}
+\[
+P(A \cap B) = P(B \mid A)P(A)
+\]
+
+Using:
+\[
+P(B_i \mid A) =
+\frac{P(A \mid B_i)P(B_i)}
+{\sum_j P(A \mid B_j)P(B_j)}
+\]
+
+This is called Bayes’ Formula (Proposition 3.1).
+
+\textbf{Definitions}
+
+Prior probability: formed before observing data
+
+Posterior probability: computed after observing event
+
+\vspace{0.5em}
+
+\textbf{7. Bayes’ Theorem – Example 1: Auditorium with 30 Rows}
+
+Auditorium has 30 rows
+
+Row 1 has 11 seats
+
+Row 2 has 12 seats
+
+\ldots
+
+Row 30 has 40 seats
+
+\textbf{Selection Process}
+
+\begin{enumerate}[leftmargin=2em]
+\item A row is selected uniformly at random
+\item A seat is selected uniformly at random within that row
+\end{enumerate}
+
+\textbf{Key Formula Used}
+
+\[
+P(S_{15}) = \sum_{k=5}^{30} P(S_{15} \mid R_k)P(R_k)
+\]
+
+\[
+P(R_k) = \frac{1}{30}
+\]
+
+\[
+P(S_{15} \mid R_k) =
+\frac{1}{\text{number of seats in row } k}
+\]
+
+Final numerical value (as shown in slides):
+\[
+P(S_{15}) = 0.0342
+\]
+
+\vspace{0.5em}
+
+\textbf{8. Bayes’ Theorem – Example 2: Communication System (Receiver)}
+
+Binary data is transmitted
+
+Receiver (RX) may make errors:
+
+0 may be detected as 1
+
+1 may be detected as 0
+
+$\{0,1\}$
+
+Given
+
+A set of conditional probabilities describing detection errors
+
+(The lecture slide introduces the setup; detailed numerical evaluation continues beyond this slide.)
+
+\vspace{1em}
+
+\textbf{End of Lecture Scribe}
+
+\vspace{0.5em}
+
+\textbf{Final Notes (for Revision)}
+
+Every PMF must sum to 1
+
+Bayes’ theorem reverses conditioning
+
+All examples strictly follow:
+
+Proper normalization
+
+Complement rule
+
+Law of total probability
+
+\end{document}
