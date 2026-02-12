@@ -1,0 +1,15 @@
+Make a lecture scribe for the ppt uploaded for exam preparation. 
+Limit yourself to given lecture slides only. Do not apply any external knowledge and do not introduce any part that is not clearly mentioned in the lecture slides.
+As you write the lecture scribe, give step by step reasoning of definitions and proofs of derivations and algorithms or a worked example where it is written in the lecture. This step by step argument can be provided in the final scribe so that the content to be covered in the lectures can be easily examined again. All the reasoning must be made solely out of the provided lecture slides.
+Include exactly what is taught in the lecture, such as:
+Definitions and notation
+Assumptions and conditions
+The statement of theorems or the results.
+Written step by step proofs or proof sketches.
+Proper explanation of worked out examples.
+If the lecture includes algorithms, reproduce them exactly as they appear in the slides
+Do not include any intuition, explanations, examples, and interpretations that are absent in the lecture. Do not make simple or paraphrase technical material.
+Arrange the scribe according to the lecture in order of clarity with clear headings to enable easy use in the actual revision.
+Use formal tone in the academics and have the scribe precise and reflective of the lecture.
+Prepare the lecture scribe in such a way that the student who is merely reading this paper can be sure that she/he is repeating what was really taught in the classroom.
+
