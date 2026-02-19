@@ -1,0 +1,17 @@
+Generate a lecture scribe intended strictly for exam preparation for the course
+CSE 400: Fundamentals of Probability in Computing (School of engineering and applied sciences, Ahmedabad University).
+Strictly use only the provided context, which consists of:
+•Tutorial - 2 Problem Set
+Do not introduce any concepts, results, derivations, explanations, interpretations, or examples that do not appear in the provided context.
+While writing the lecture scribe, reason step by step and include the reasoning explicitly in the scribe for all of the following only when they appear in the context:
+•The Concepts which has been used in the questions.
+Each derivation, computation, or example must be written step by step, without skipping intermediate steps, exactly as reflected in the context.
+Maintain the authenticity of mathematical equations.
+Organize the scribe using clear section headings and logical flow, so that a student can rely on this document alone for closed-notes exam revision.
+Do not:
+•	Add intuition, motivation, or commentary not stated in the lecture
+•	Simplify or reinterpret steps
+•	Introduce alternative methods or explanations
+•	Add new examples, exercises, or conclusions
+
+Important Note - Strictly follow the instructions as mentioned above.
