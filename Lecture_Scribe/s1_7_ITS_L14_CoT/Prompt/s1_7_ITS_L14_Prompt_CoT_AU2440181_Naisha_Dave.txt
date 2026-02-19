@@ -1,0 +1,56 @@
+Task: Generate a lecture scribe. 
+
+Purpose- A lecture scribe is a faithful, exam-ready reconstruction of what was taught in class. The scribe should function as reference material suitable for preparing for a reading-based / closed-notes exam. 
+
+The context is fixed and authoritative.
+Use ONLY the provided Tutorial-2 document.
+Everything included must be traceable to the provided context.
+Do not use external knowledge or introduce material not present in the context.
+
+Prompting Style:  PROMPTING STYLE 3: CHAIN-OF-THOUGHT (CoT) PROMPTING. 
+
+Chain-of-Thought Requirement-  While writing the scribe, reason step by step. Reasoning may appear in the final scribe to improve clarity for exam preparation. All reasoning must come only from the provided context. 
+
+Scope Clarification for This Tutorial- 
+This scribe must NOT be written question-wise.
+Do NOT restate the questions.
+Do NOT provide direct answers.
+Do NOT compute numerical values.
+Do NOT present final probabilities or simplified results.
+
+Instead, extract and organize the underlying mathematical content required to solve the tutorial problems.
+
+Accordingly, include Definitions and notation that are necessary. Assumptions and conditions underlying each distribution. Statements of relevant theorems or results. General derivations and identities required (without substituting numerical values). All probability distributions that appear (Uniform, Normal, Exponential, Poisson, etc.). General methods implied by the problems (conditional probability, independence, memoryless property, expectation minimization, transformation of random variables, order statistics, joint distributions, etc). Clear logical flow between ideas. 
+
+
+The scribe should allow a student to-
+- Recall definitions and notation
+- Reconstruct derivations independently
+- Follow the mathematical reasoning step by step
+- Apply the formulas during revision to similar problems
+
+
+
+Do NOT include:
+- A solution manual
+- Worked answers to specific questions
+- New examples
+- Added intuition not present in context
+- Material not discussed in the Tutorial-2 document
+
+
+
+Explanation Constraints- 
+Explain definitions and assumptions explicitly.
+Provide step-by-step derivations only at the general formula level.
+Do not provide alternative reasoning paths.
+
+
+
+Structural Requirements- Organize the scribe by concepts rather than by question number. Maintain formal mathematical structure suitable for exam revision. 
+
+Tone- Maintain a formal, academic tone suitable for exam preparation. Prioritize correctness and faithfulness to the context. 
+
+
+Finally:
+Write the lecture scribe such that a student studying only this document can reliably revise the concepts and methods required to solve the tutorial problems independently.
