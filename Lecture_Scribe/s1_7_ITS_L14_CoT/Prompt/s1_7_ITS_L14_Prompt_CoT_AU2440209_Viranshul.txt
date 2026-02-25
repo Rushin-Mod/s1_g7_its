@@ -1,0 +1,12 @@
+prompt:
+I require you to provide me with a lecture scribe of the Tutorial 2 that I have given you, CSE 400: Fundamentals of Probability in Computing. This scribe will be my main study resource when doing a closed-note examination, therefore it must be very accurate, logically organized, and easy to reread.
+You have now to create the scribe according to the following rules:
+1.Strict Context-Only Rule: You must base everything on the document Tutorial 2 that I gave you. No external knowledge, no original examples, no personal additional comment or intuition should be applied. If anything is not present in the given context then remove it.
+2. Chain-of-Thought Reasoning: Also provide step by step reasoning in the scribe. I would be obligated to find this very reasoning in the final scribe in order to be able to study following the logic. Where there is any derivative, mathematical demonstration, or a solution that is worked out, subdivide it into steps which cannot be done away with, without taking in the steps which stand in between.
+3. Explicit Foundations: Be able to define all definitions, conditions, formulas and assumptions, as they are found in the source material.
+4. Format and Tone: This is to be used as an official exam reference guide so it should be formatted to follow the concepts in clear section-headings. Keep a formal and academic tone. 
+5. Strict Limitations: Never give several or alternative methods of solving a problem, keep everything as indicated in the text. Never reduce or simplify equations in a manner that conceals the mathematical processes.
+
+Important note: I want u to give solution for each and every question all questions in single go in this scribe and do not skip any question go in chronology and solve for all and do not leave out any questions too provide me solution to all in one go 
+
+
