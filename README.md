@@ -1,6 +1,4 @@
-# CSE400
-
-S1_G7_ITS
+# s1_g7_its
 
 Base Paper - https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9471840
 
