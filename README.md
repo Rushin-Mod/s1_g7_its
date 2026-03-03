@@ -19,4 +19,4 @@ Scribe - [Rushin Modi](https://github.com/Rushin-Mod) & [Naisha Dave](https://gi
 ### Milestone 3
 Project Manager & Concept Map Design - [Naisha Dave](https://github.com/Naisha-D)\
 Video/PPT -  [Rushin Modi](https://github.com/Rushin-Mod) & [Philip Ryan Rocha](https://github.com/PhilipRyanRocha)\
-Scribe - [Aditi Kapadiya](https://github.com/AditiKapadiya) & [Viranshul Panchal](https://github.com/Viranshul-P)\
+Scribe - [Aditi Kapadiya](https://github.com/AditiKapadiya) & [Viranshul Panchal](https://github.com/Viranshul-P)
