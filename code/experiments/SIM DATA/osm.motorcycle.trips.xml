@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-03-10 16:04:06 by Eclipse SUMO netedit Version 1.22.0
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <!-- Routes -->
+    <route id="r_0" edges="166953969#3 1307443858#0"/>
+    <route id="r_1" edges="166953969#3 166749694#4"/>
+    <route id="r_10" edges="1307443859#0 1307444957 166749694#5"/>
+    <route id="r_11" edges="166953969#3 244329793#6 244329793#7"/>
+    <route id="r_12" edges="166953969#2 166955156"/>
+    <route id="r_13" edges="166953969#2 166953969#3"/>
+    <route id="r_14" edges="1307443858#0 1307443858#1"/>
+    <route id="r_15" edges="1307443859#0 1307443859#1 166749694#4 166749694#5"/>
+    <route id="r_2" edges="166953969#3 1307443858#0"/>
+    <route id="r_3" edges="166953969#3 1307443858#0 1307443858#1"/>
+    <route id="r_4" edges="1307443859#1 166953972#1 166953972#2"/>
+    <route id="r_5" edges="166749694#2 166749694#4 166749694#5"/>
+    <route id="r_6" edges="166749694#2 166953972#1 166953972#2"/>
+    <route id="r_7" edges="1307444956 1307443858#1"/>
+    <route id="r_8" edges="1307443859#1 244329793#6 244329793#7"/>
+    <route id="r_9" edges="244329793#3 166955153 166953972#2"/>
+</routes>
