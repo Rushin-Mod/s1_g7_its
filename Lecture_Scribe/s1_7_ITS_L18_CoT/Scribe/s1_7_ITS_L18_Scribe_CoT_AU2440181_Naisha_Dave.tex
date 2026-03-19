@@ -1,0 +1,311 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath, amssymb, booktabs}
+
+\title{Lecture 18: Marginal PMF, Correlation, Covariance, Joint Gaussian RVs}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{1. Marginal PMF}
+
+\subsection*{1.1 Definition}
+
+For discrete random variables $X$ and $Y$, the joint PMF is:
+\[
+p_{XY}(x,y) = P(X = x, Y = y)
+\]
+
+The marginal PMFs are obtained by summing over the other variable:
+\[
+p_X(x) = \sum_y p_{XY}(x,y)
+\]
+\[
+p_Y(y) = \sum_x p_{XY}(x,y)
+\]
+
+\textbf{Key Idea}
+
+The marginal PMF of one variable is obtained by summing the joint PMF over all possible values of the other variable.
+
+\subsection*{1.2 Marginal PMF from Joint PMF Table}
+
+From a joint PMF table:
+\begin{itemize}
+    \item Row sums $\rightarrow p_X(x)$
+    \item Column sums $\rightarrow p_Y(y)$
+\end{itemize}
+
+Formally:
+\[
+p_X(x_i) = \sum_j p_{ij}, \quad p_Y(y_j) = \sum_i p_{ij}
+\]
+
+Also:
+\[
+\sum_i p_X(x_i) = 1, \quad \sum_j p_Y(y_j) = 1
+\]
+
+\subsection*{1.3 Example}
+
+Given joint PMF:
+
+\begin{center}
+\begin{tabular}{c|cc}
+ & $y=0$ & $y=1$ \\
+\hline
+$x=0$ & $1/8$ & $1/4$ \\
+$x=1$ & $3/8$ & $1/4$ \\
+\end{tabular}
+\end{center}
+
+\textbf{Step-by-step solution}
+
+\textbf{Compute $p_X(x)$:}
+\[
+p_X(0) = \frac{1}{8} + \frac{1}{4} = \frac{3}{8}
+\]
+\[
+p_X(1) = \frac{3}{8} + \frac{1}{4} = \frac{5}{8}
+\]
+
+\textbf{Compute $p_Y(y)$:}
+\[
+p_Y(0) = \frac{1}{8} + \frac{3}{8} = \frac{1}{2}
+\]
+\[
+p_Y(1) = \frac{1}{4} + \frac{1}{4} = \frac{1}{2}
+\]
+
+\textbf{Final Answer}
+\[
+p_X(x) =
+\begin{cases}
+3/8 & x=0 \\
+5/8 & x=1
+\end{cases}
+\quad
+p_Y(y) =
+\begin{cases}
+1/2 & y=0 \\
+1/2 & y=1
+\end{cases}
+\]
+
+\section*{2. Correlation}
+
+\subsection*{2.1 Definition}
+
+\[
+R_{XY} = E[XY]
+\]
+
+It represents the average value of the product $XY$.
+
+\subsection*{2.2 Interpretation and Limitation}
+
+\begin{itemize}
+    \item $R_{XY}$ depends on the scale of $X$ and $Y$
+    \item Computed about the origin, not about means
+    \item Mixes mean values, spread, and dependence
+\end{itemize}
+
+\textbf{Important Result}
+\[
+R_{XY} = 0 \Rightarrow \text{orthogonal about the origin}
+\]
+
+\textbf{Transition}
+
+To remove mean effects $\rightarrow$ center variables $\rightarrow$ covariance
+
+\section*{3. Covariance}
+
+\subsection*{3.1 Definition}
+
+\[
+\text{Cov}(X,Y) = E[(X - \mu_X)(Y - \mu_Y)]
+\]
+
+\[
+\mu_X = E[X], \quad \mu_Y = E[Y]
+\]
+
+Measures how centered variables vary together.
+
+\subsection*{3.2 Interpretation Summary}
+
+\begin{itemize}
+    \item $\text{Cov}(X,Y) > 0$ : positive covariance
+    \item $\text{Cov}(X,Y) < 0$ : negative covariance
+    \item $\text{Cov}(X,Y) = 0$ : no linear co-variation
+\end{itemize}
+
+Indicates direction only; magnitude depends on units.
+
+\subsection*{3.3 Algebraic Form (Derivation)}
+
+\[
+\text{Cov}(X,Y) = E[(X - \mu_X)(Y - \mu_Y)]
+\]
+
+\textbf{Step 1: Expand}
+\[
+= E[XY - X\mu_Y - \mu_X Y + \mu_X \mu_Y]
+\]
+
+\textbf{Step 2: Apply linearity}
+\[
+= E[XY] - \mu_Y E[X] - \mu_X E[Y] + \mu_X \mu_Y
+\]
+
+\textbf{Step 3: Substitute means}
+\[
+= E[XY] - \mu_X \mu_Y
+\]
+
+\textbf{Final Result}
+\[
+\boxed{\text{Cov}(X,Y) = E[XY] - E[X]E[Y]}
+\]
+
+\subsection*{3.4 Properties}
+
+\begin{enumerate}
+    \item $\text{Cov}(X,Y) = \text{Cov}(Y,X)$
+    \item $\text{Cov}(X,X) = \text{Var}(X)$
+    \item $\text{Cov}(aX + b, cY + d) = ac \cdot \text{Cov}(X,Y)$
+    \item $X \perp Y \Rightarrow \text{Cov}(X,Y) = 0$
+\end{enumerate}
+
+Zero covariance does NOT imply independence.
+
+\subsection*{3.5 Example 1}
+
+Given:
+\[
+Y = -2X + 3
+\]
+
+\[
+\text{Cov}(X,Y) = E[XY] - E[X]E[Y]
+\]
+
+\[
+XY = -2X^2 + 3X
+\]
+
+\[
+E[XY] = -2E[X^2] + 3E[X]
+\]
+
+\[
+E[Y] = -2E[X] + 3
+\]
+
+\[
+\text{Cov}(X,Y) = -2E[X^2] + 2(E[X])^2
+\]
+
+\[
+\text{Var}(X) = E[X^2] - (E[X])^2
+\]
+
+\[
+\Rightarrow \text{Cov}(X,Y) = -2\text{Var}(X)
+\]
+
+\section*{4. Pearson’s Correlation Coefficient}
+
+\subsection*{4.1 Definition}
+
+\[
+\rho_{XY} = \frac{\text{Cov}(X,Y)}{\sigma_X \sigma_Y}
+\]
+
+\subsection*{4.2 Properties}
+
+\[
+-1 \leq \rho_{XY} \leq 1
+\]
+
+Measures strength and direction of linear relationship.
+
+\subsection*{4.3 Interpretation}
+
+\begin{itemize}
+    \item $\rho_{XY} > 0$ : positive trend
+    \item $\rho_{XY} < 0$ : negative trend
+    \item $\rho_{XY} = 0$ : no linear correlation
+\end{itemize}
+
+\section*{5. Example 2 (Continuous Case)}
+
+\[
+f_{XY}(x,y) =
+\begin{cases}
+\frac{xy}{96}, & 0<x<4,\; 1<y<5 \\
+0, & \text{otherwise}
+\end{cases}
+\]
+
+\[
+E[X] = \frac{8}{3}, \quad E[Y] = \frac{31}{9}
+\]
+
+\[
+E[XY] = \frac{248}{27}
+\]
+
+\[
+E[2X+3Y] = \frac{47}{3}
+\]
+
+\[
+\text{Var}(X) = \frac{8}{9}, \quad \text{Var}(Y) = \frac{92}{81}
+\]
+
+\[
+\text{Cov}(X,Y) = 0, \quad \rho_{XY} = 0
+\]
+
+\section*{6. Jointly Gaussian Random Variables}
+
+\subsection*{6.1 Definition}
+
+A pair $(X,Y)$ is jointly Gaussian if:
+\begin{itemize}
+    \item Joint density is bivariate Gaussian
+    \item Marginals are Gaussian
+\end{itemize}
+
+\subsection*{6.3 Joint Gaussian PDF}
+
+\[
+f_{XY}(x,y) =
+\frac{1}{2\pi \sigma_X \sigma_Y \sqrt{1-\rho^2}}
+\exp\left(
+-\frac{1}{2(1-\rho^2)}
+\left[
+\left(\frac{x-\mu_X}{\sigma_X}\right)^2 +
+\left(\frac{y-\mu_Y}{\sigma_Y}\right)^2 -
+2\rho \left(\frac{x-\mu_X}{\sigma_X}\right)\left(\frac{y-\mu_Y}{\sigma_Y}\right)
+\right]
+\right)
+\]
+
+\section*{Final Key Takeaways}
+
+\begin{enumerate}
+    \item Marginal PMF = sum over joint PMF
+    \item Correlation is raw and not centered
+    \item Covariance removes mean effect
+    \item $\text{Cov}(X,Y) = E[XY] - E[X]E[Y]$
+    \item Zero covariance $\neq$ independence
+    \item Pearson coefficient normalizes covariance
+    \item Joint Gaussian fully described by means, variances, and correlation
+\end{enumerate}
+
+\end{document}
