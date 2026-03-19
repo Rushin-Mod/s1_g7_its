@@ -1,0 +1,15 @@
+Create a formal lecture scribe using the context that is presented only. The document will be my only reference resource to use in preparing closed-notes exams.
+
+To make sure that the scribe satisfies all elements of academic requirements, use a step-by-step Chain-of-Thought methodology when writing and directly provide your clear rationale in the final product. For the scribe you must follow the following constraints strictly:
+
+Clear Explanations: New definitions, terms and assumptions. Take everything that the lectures introduce and explicitly describe it as it is introduced in the lecture.
+
+Step-by-Step Execution: Trace the reasoning stepwise in all proofs, derivations, computations, and worked examples. Summarizing and omitting intermediate mathematical steps and simplifying the process should be avoided.
+
+Visible Reasoning: Recurrently uncover logical connections amid dissimilar ideas in order to have the sequence of ideas clear on exam revision.
+
+Absolute Context Adherence: Use pure materials given completely. Do not bring in external knowledge, different practices, unmotivated motives, and new models.
+
+Tone and Structure: A formal academic. Divide the content presented in a linear manner in the lecture using clear section titles.
+
+The ultimate result should be a knowledgeable, reason-discovery writing of the lecture intended solely to study the exam.
