@@ -6,15 +6,12 @@ from collections import defaultdict
 
 
 # ==========================================================
-# SUMO SETUP (VIVA: Why needed?)
+# SUMO SETUP
 # ==========================================================
-# TraCI requires SUMO_HOME to access simulation tools.
-# Without this, Python cannot control the traffic simulation.
 if 'SUMO_HOME' in os.environ:
     tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
     sys.path.append(tools)
 else:
-    # VIVA: This ensures environment dependency is explicitly validated.
     raise EnvironmentError("SUMO_HOME not set")
 
 import traci  # Interface between Python and SUMO simulator
@@ -34,15 +31,13 @@ for lane in LANE_IDS:
 
 print("Lane Groups:", dict(lane_groups))
 
-SIM_TIME = 200   # Total simulation steps (VIVA: discrete-time system)
+SIM_TIME = 200   # Total simulation steps
 LANES = len(lane_groups)        # Number of incoming traffic streams
 
-# VIVA: These define an M/M/1 queue per lane
 # λ (lambda) = arrival rate, μ (mu) = service rate
 lambda_i = [0.5, 0.6, 0.4, 0.7]
 mu_i     = [1.0, 1.0, 1.0, 1.0]
 
-# VIVA: Vehicle speeds assumed Gaussian (realistic approximation)
 mu_v = 10
 sigma_v = 2
 
@@ -53,9 +48,6 @@ SUMO_CONFIG = r"C:\Users\ADMIN\Pythonwork\CSE400_SUMO\Usmanpura\SIM.sumocfg"
 TLS_ID = "cluster_1783450256_1783450268_1783450274_1783450276"
 
 
-
-
-# VIVA: Only one lane gets green at a time → conflict-free intersection
 PHASES = [
     "GrRR",
     "rGrR",
@@ -68,33 +60,24 @@ PHASES = [
 # ==========================================================
 
 def sample_arrivals(lam):
-    # VIVA: Why Poisson?
-    # Because arrivals are memoryless and independent → standard traffic assumption
     return np.random.poisson(lam)
 
 def sample_speed():
-    # VIVA: Why Normal?
     # Real vehicle speeds cluster around mean with variance → empirical fit
     return np.random.normal(mu_v, sigma_v)
 
 def sample_waiting_time(mu, lam):
-    # VIVA: Derived from M/M/1 queue → exponential waiting time
     # W ~ Exp(μ - λ)
     rate = max(mu - lam, 1e-6)  # Prevent instability when λ ≈ μ
     return np.random.exponential(1 / rate)
 
 def sample_delta_G():
-    # VIVA: This is the RANDOMIZED CONTROL VARIABLE
     # Represents adaptive green time extension
     return random.randint(0, 5)
 
 # ==========================================================
 # REAL-TIME STATE FROM SUMO
 # ==========================================================
-
-
-    # VIVA: Why real queue instead of simulated?
-    # Ensures controller reacts to actual traffic, not just model
 
 def get_real_queue():
     Q = []
@@ -106,7 +89,6 @@ def get_real_queue():
     return Q
 
 def apply_control(lane_index, duration):
-    # VIVA: This is the ACTUATION step (control output)
     traci.trafficlight.setPhase(TLS_ID, 0)
 
     # traci.trafficlight.setRedYellowGreenState(TLS_ID, PHASES[lane_index])
@@ -117,12 +99,6 @@ def apply_control(lane_index, duration):
 # ==========================================================
 
 def deterministic_step(Q):
-    """
-    VIVA DEFENSE:
-    - This is the BASELINE algorithm
-    - Uses fixed service rate (no randomness)
-    - Equivalent to classical queue evolution
-    """
     new_Q = []
     total_wait = 0
 
@@ -130,14 +106,12 @@ def deterministic_step(Q):
 
         arrivals = sample_arrivals(lambda_i[i])
 
-        # VIVA: Service is capped → cannot exceed queue length
         departures = min(Q[i], int(mu_i[i]))
 
         # Queue evolution equation:
         # Q(t+1) = Q(t) + A(t) - D(t)
         Qi = max(Q[i] + arrivals - departures, 0)
 
-        # VIVA: Little’s Law → W ≈ Q / λ
         Wi = Qi / max(lambda_i[i], 1e-6)
 
         total_wait += Wi
@@ -150,14 +124,6 @@ def deterministic_step(Q):
 # ==========================================================
 
 def las_vegas_step(Q, trials=30):
-    """
-    VIVA DEFENSE (IMPORTANT):
-    - This is NOT Monte Carlo
-    - This is LAS VEGAS algorithm:
-        → Always produces valid solution
-        → Uses randomness to IMPROVE outcome
-    - We search over random green times and pick best
-    """
 
     new_Q = []
     total_wait = 0
@@ -174,12 +140,10 @@ def las_vegas_step(Q, trials=30):
         best_Q = float('inf')
         best_delta = 1
 
-        # VIVA: Randomized optimization loop
         for _ in range(trials):
 
             delta = sample_delta_G()
 
-            # VIVA: Scaling μ → effectively increasing green time
             departures = min(Q[i], int(mu_i[i] * max(delta,1)))
 
             Qi_candidate = max(Q[i] + arrivals - departures, 0)
@@ -193,8 +157,6 @@ def las_vegas_step(Q, trials=30):
         lv_departures = min(Q[i], int(mu_i[i] * max(best_delta,1)))
         lv_Q = max(Q[i] + arrivals - lv_departures, 0)
 
-        # VIVA CRITICAL POINT:
-        # This ensures Las Vegas NEVER performs worse than deterministic
         Qi = min(det_Q, lv_Q)
 
         Wi = Qi / max(lambda_i[i], 1e-6)
@@ -210,11 +172,6 @@ def las_vegas_step(Q, trials=30):
 # ==========================================================
 
 def execute_controller(Q, is_lv=False):
-    """
-    VIVA:
-    - Decision layer: chooses control strategy
-    - Separation of logic improves modularity
-    """
 
     if is_lv:
         Q_new, wait, best_deltas = las_vegas_step(Q)
@@ -223,7 +180,6 @@ def execute_controller(Q, is_lv=False):
         Q_new, wait = deterministic_step(Q)
         duration = 3  # Fixed control
 
-    # VIVA: Greedy lane selection → serve most congested lane
     lane = int(np.argmax(Q))
 
     apply_control(lane, duration)
@@ -235,11 +191,6 @@ def execute_controller(Q, is_lv=False):
 # ==========================================================
 
 def run_simulation(mode="det"):
-    """
-    VIVA:
-    - Closed-loop control system
-    - Observe → Decide → Act → Repeat
-    """
 
     traci.start(["sumo-gui", "-c", SUMO_CONFIG])
 
@@ -267,7 +218,6 @@ def run_simulation(mode="det"):
     wait, queue = [], []
     speed_samples = []
 
-    # VIVA: (Currently unused but designed for extensibility)
     arrivals_store = []
     Q_store = []
     delta_samples = []
@@ -289,7 +239,6 @@ def run_simulation(mode="det"):
             Q = Q_new
             lane = int(np.argmax(Q))
 
-            # VIVA: Yellow phase ensures safe switching
             if lane != prev_lane:
                 traci.trafficlight.setPhase(TLS_ID, 0)
                 traci.simulationStep()
@@ -303,7 +252,6 @@ def run_simulation(mode="det"):
             Q = Q_new
             lane = int(np.argmax(Q))
 
-            # VIVA: Adaptive duration based on optimization
             duration = max(best_deltas[lane], 1)
 
             if lane != prev_lane:
@@ -333,14 +281,8 @@ def run_simulation(mode="det"):
 # ==========================================================
 
 def plot_all(wait_det, wait_lv, queue_det, queue_lv, speed):
-    """
-    VIVA:
-    - These plots justify performance claims
-    - Required for IEEE-style evaluation
-    """
 
     def smooth(x, w=10):
-        # VIVA: Reduces noise → shows trend clearly
         return np.convolve(x, np.ones(w)/w, mode='valid')
 
     fig, axs = plt.subplots(3, 2, figsize=(14, 10))
@@ -385,10 +327,6 @@ def plot_all(wait_det, wait_lv, queue_det, queue_lv, speed):
 # ==========================================================
 
 def print_metrics(wait_det, wait_lv):
-    """
-    VIVA:
-    - Final numerical proof of improvement
-    """
 
     det = np.mean(wait_det)
     lv  = np.mean(wait_lv)
@@ -397,7 +335,6 @@ def print_metrics(wait_det, wait_lv):
     print(f"Deterministic : {det:.2f}")
     print(f"Las Vegas     : {lv:.2f}")
 
-    # VIVA: This is your CLAIM validation
     if lv < det:
         print(f"Improvement   : {(det-lv)/det*100:.2f}%")
     else:
