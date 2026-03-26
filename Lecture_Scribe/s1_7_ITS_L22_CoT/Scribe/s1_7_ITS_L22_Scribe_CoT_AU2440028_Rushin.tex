@@ -1,0 +1,411 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath, amssymb}
+
+\title{CSE 400: Fundamentals of Probability in Computing\\
+Lecture Scribe: Inequalities and Tail Bounds}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{1. Tail and Motivation of Tail Bounds}
+
+\subsection*{Definition of Tail}
+
+The tail of a random variable ( X ) is:
+\[
+P\{X > x\}
+\]
+
+\subsection*{Why do we care about tails?}
+
+\begin{itemize}
+\item Jobs delayed more than 24 hours
+\item Packets dropped due to full buffer
+\end{itemize}
+
+\subsection*{Key Idea (from lecture)}
+
+\begin{itemize}
+\item Mean $\rightarrow$ average behavior (easy)
+\item Tail $\rightarrow$ rare extreme events (hard)
+\end{itemize}
+
+\subsection*{Why are tails hard to compute?}
+
+\begin{itemize}
+\item Requires summing many small probabilities
+\end{itemize}
+
+\section*{Tail Example 1}
+
+\subsection*{Problem}
+
+Suppose distributing ( n ) jobs among ( n ) servers at random.
+Find:
+\[
+P\{X \ge k\}
+\]
+where ( X ) = number of jobs assigned to a server.
+
+\subsection*{Reasoning (Step-by-step from lecture)}
+
+\begin{enumerate}
+\item Jobs are assigned randomly
+\item Most servers get few jobs
+\item Occasionally, one server gets many jobs
+\item This is a \textbf{tail event (rare overload)}
+\end{enumerate}
+
+\subsection*{Mathematical Formulation}
+
+\[
+X \sim \text{Binomial}(n, p)
+\]
+
+\[
+P\{X \ge k\} = \sum_{i=k}^{n} \binom{n}{i} p^i (1-p)^{n-i}
+\]
+
+\section*{Tail Example 2 (Poisson Tail)}
+
+\subsection*{Problem}
+
+Jobs arrive according to a Poisson process with rate ( $\lambda$ ).
+Find:
+\[
+P\{X \ge k\}
+\]
+
+\subsection*{Reasoning (Step-by-step from lecture)}
+
+\begin{enumerate}
+\item Jobs arrive randomly over time
+\item Most hours have moderate arrivals
+\item Sometimes there is a burst of arrivals
+\item This is a \textbf{tail event (sudden spike in load)}
+\end{enumerate}
+
+\subsection*{Mathematical Formulation}
+
+\[
+X \sim \text{Poisson}(\lambda)
+\]
+
+\[
+P\{X \ge k\} = \sum_{i=k}^{\infty} e^{-\lambda} \frac{\lambda^i}{i!}
+\]
+
+\section*{Why Tail Bounds?}
+
+\subsection*{Observation}
+
+Exact tail probabilities are often hard to compute.
+
+\subsection*{Exact Computation}
+
+\[
+P\{X \ge k\} = \sum_{i=k}^{\infty} e^{-\lambda} \frac{\lambda^i}{i!}
+\]
+
+\[
+P\{X \ge k\} = \sum_{i=k}^{n} \binom{n}{i} p^i (1-p)^{n-i}
+\]
+
+\begin{itemize}
+\item These are \textbf{complicated, long sums}
+\end{itemize}
+
+\subsection*{Key Idea (from lecture)}
+
+Instead of exact value:
+
+\begin{itemize}
+\item Find an \textbf{upper bound}
+\item Easier to compute
+\item Still gives a \textbf{guarantee}
+\end{itemize}
+
+\[
+P(X \ge k) \le \text{simple bound}
+\]
+
+\textbf{Key idea:} Approximate safely instead of computing exactly
+
+\section*{Running Example (Used Across Inequalities)}
+
+\begin{itemize}
+\item Experiment: Flip a fair coin ( n ) times
+\item Random variable: ( $X =$ number of heads )
+\item Distribution:
+\[
+X \sim \text{Binomial}(n, 1/2)
+\]
+\item Mean:
+\[
+E[X] = \frac{n}{2}
+\]
+\end{itemize}
+
+\subsection*{Question}
+
+\[
+P\left(X \ge \frac{3}{4}n\right)
+\]
+
+\begin{itemize}
+\item Tail region: unusually many heads
+\end{itemize}
+
+\section*{2. Markov’s Inequality}
+
+\subsection*{Key Idea}
+
+\begin{itemize}
+\item Uses only the mean
+\item Large values $\Rightarrow$ rare
+\end{itemize}
+
+\subsection*{Definition}
+
+\[
+P(X \ge a) \le \frac{E[X]}{a}
+\]
+
+\subsection*{Proof (Step-by-step as per lecture flow)}
+
+\begin{enumerate}
+\item Consider random variable ( $X \ge 0$ )
+\item Split expectation:
+\[
+E[X] = \sum_x x \cdot P(X = x)
+\]
+\item Focus on values where ( $X \ge a$ ):
+\[
+E[X] \ge \sum_{x \ge a} x \cdot P(X = x)
+\]
+\item Since ( $x \ge a$ ):
+\[
+\ge \sum_{x \ge a} a \cdot P(X = x)
+\]
+\item Factor out ( $a$ ):
+\[
+= a \cdot P(X \ge a)
+\]
+\item Therefore:
+\[
+E[X] \ge a \cdot P(X \ge a)
+\]
+\item Rearranging:
+\[
+P(X \ge a) \le \frac{E[X]}{a}
+\]
+\end{enumerate}
+
+\subsection*{Example (from lecture)}
+
+\begin{itemize}
+\item Avg = 10 $\Rightarrow$ few values can be 100+
+\end{itemize}
+
+\section*{3. Chebyshev’s Inequality}
+
+\subsection*{Definition}
+
+\[
+P(|X - \mu| \ge k\sigma) \le \frac{1}{k^2}
+\]
+
+\subsection*{Proof (Step-by-step)}
+
+\begin{enumerate}
+\item Apply Markov inequality on:
+\[
+Y = (X - \mu)^2
+\]
+\item Then:
+\[
+P(|X - \mu| \ge k\sigma) = P((X - \mu)^2 \ge k^2\sigma^2)
+\]
+\item Apply Markov:
+\[
+\le \frac{E[(X - \mu)^2]}{k^2\sigma^2}
+\]
+\item Since:
+\[
+E[(X - \mu)^2] = \sigma^2
+\]
+\item Therefore:
+\[
+P(|X - \mu| \ge k\sigma) \le \frac{1}{k^2}
+\]
+\end{enumerate}
+
+\subsection*{Example}
+
+(As per lecture: deviation from mean bounded using variance)
+
+\section*{4. Chernoff Bound and Poisson Tail}
+
+\subsection*{Key Idea (Chernoff Bound)}
+
+\begin{itemize}
+\item Provides \textbf{tighter bounds} than Markov/Chebyshev
+\item Works well for sums of independent random variables
+\end{itemize}
+
+\subsection*{Definition (Form Used in Lecture Context)}
+
+For sum of independent variables:
+\[
+P(X \ge (1+\delta)\mu) \le \text{exponentially decreasing bound}
+\]
+
+\subsection*{Proof (Step-by-step structure from lecture)}
+
+\begin{enumerate}
+\item Start with:
+\[
+P(X \ge a)
+\]
+\item Transform using exponential:
+\[
+P(e^{tX} \ge e^{ta})
+\]
+\item Apply Markov inequality:
+\[
+\le \frac{E[e^{tX}]}{e^{ta}}
+\]
+\item Use independence:
+\[
+E[e^{tX}] = \prod E[e^{tX_i}]
+\]
+\item Optimize over ( $t$ )
+\end{enumerate}
+
+\subsection*{Poisson Tail}
+
+\[
+P(X \ge k) = \sum_{i=k}^{\infty} e^{-\lambda} \frac{\lambda^i}{i!}
+\]
+
+\begin{itemize}
+\item Chernoff bound gives \textbf{simpler upper bound instead of sum}
+\end{itemize}
+
+\subsection*{Example}
+
+Applied on:
+
+\begin{itemize}
+\item Binomial distribution (coin flips)
+\item Poisson arrivals
+\end{itemize}
+
+\section*{5. Jensen’s Inequality}
+
+\subsection*{Convex Functions}
+
+A function ( $f$ ) is convex if:
+\[
+f(\lambda x + (1-\lambda)y) \le \lambda f(x) + (1-\lambda)f(y)
+\]
+
+\subsection*{Jensen’s Inequality}
+
+\[
+f(E[X]) \le E[f(X)]
+\]
+
+\subsection*{Proof (Step-by-step from lecture structure)}
+
+\begin{enumerate}
+\item Use convexity definition
+\item Extend from two points to expectation
+\item Apply linearity of expectation
+\item Obtain:
+\[
+f(E[X]) \le E[f(X)]
+\]
+\end{enumerate}
+
+\subsection*{Example}
+
+Applying convex function on expectation vs expectation of function
+
+\section*{6. Case Study: System Level Understanding}
+
+\subsection*{Problem}
+
+How to predict worst-case demand on server?
+
+\subsection*{Reasoning (Step-by-step from lecture)}
+
+\begin{enumerate}
+\item Model jobs assigned randomly
+\item Identify overload as tail event
+\item Exact computation:
+\begin{itemize}
+\item Requires large summations
+\end{itemize}
+\item Use tail bounds:
+\begin{itemize}
+\item Markov $\rightarrow$ simple but loose
+\item Chebyshev $\rightarrow$ uses variance
+\item Chernoff $\rightarrow$ tight bound
+\end{itemize}
+\item Choose bound based on:
+\begin{itemize}
+\item Accuracy requirement
+\item Computational simplicity
+\end{itemize}
+\end{enumerate}
+
+\subsection*{Conclusion from Lecture}
+
+\begin{itemize}
+\item Tail bounds allow:
+\begin{itemize}
+\item Avoiding exact computation
+\item Getting guaranteed upper bounds
+\item Predicting rare extreme events
+\end{itemize}
+\end{itemize}
+
+\section*{FINAL SUMMARY (FOR EXAM)}
+
+\begin{itemize}
+\item Tail:
+\[
+P(X > x)
+\]
+\item Exact tail:
+$\rightarrow$ Hard (long sums)
+
+\item Strategy:
+$\rightarrow$ Use bounds
+\end{itemize}
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+Inequality & Uses & Strength \\
+\hline
+Markov & Mean & Weak \\
+Chebyshev & Mean + Variance & Medium \\
+Chernoff & Distribution structure & Strong \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{itemize}
+\item Jensen:
+\[
+f(E[X]) \le E[f(X)]
+\]
+\item Application:
+$\rightarrow$ Predict rare events (server overload, bursts)
+\end{itemize}
+
+\end{document}
