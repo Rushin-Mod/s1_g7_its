@@ -27,3 +27,4 @@ Scribe - [Aditi Kapadiya](https://github.com/AditiKapadiya) & [Viranshul Panchal
 Project Manager & Concept Map Design - [Aditi Kapadiya](https://github.com/AditiKapadiya)\
 Video/PPT -  [Rushin Modi](https://github.com/Rushin-Mod) & [Viranshul Panchal](https://github.com/Viranshul-P) \
 Scribe - [Naisha Dave](https://github.com/Naisha-D)  & [Philip Ryan Rocha](https://github.com/PhilipRyanRocha) 
+
