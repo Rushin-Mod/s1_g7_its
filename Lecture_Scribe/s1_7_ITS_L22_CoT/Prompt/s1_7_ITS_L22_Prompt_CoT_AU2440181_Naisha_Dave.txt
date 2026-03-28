@@ -1,0 +1,28 @@
+Generate a lecture scribe suitable for exam preparation for the provided Lecture 21 and Lecture 22 content on inequalities and tail bounds.
+
+While writing the scribe, reason step by step through all definitions, assumptions, theorem statements, proofs, derivations, and example solutions exactly as presented in the provided context. Make the logical flow explicit so that a student can clearly follow how each concept builds on the previous one during revision.
+
+The scribe must strictly follow the lecture’s structure and scope and should function as faithful, exam-ready reference material. Include all relevant topics such as:
+
+tail of a random variable and tail probability
+motivation for studying tail events
+exact computation of tail probabilities
+Markov’s Inequality (definition, assumptions, proof, example)
+Chebyshev’s Inequality (definition, proof, example)
+Chernoff Bound and Poisson tail bounds (derivation and usage)
+Jensen’s Inequality and convex functions (definition, proof, example)
+connections between inequalities and bounding rare events
+
+Explicitly show how inequalities are used to derive bounds on probabilities, especially for rare or extreme events (tails), and clearly present each step in the reasoning for proofs and derivations.
+
+Include:
+• Definitions and notation
+• Assumptions and conditions
+• Statements of theorems or results
+• Proofs or proof sketches, step by step
+• Worked examples with intermediate steps
+• Clear logical flow between ideas
+
+Do not introduce any material, intuition, examples, or explanations that are not present in the provided lecture slides or textbook content. Do not simplify beyond what is given. Do not add external knowledge.
+
+The final output must be formal, structured, and detailed enough such that if a student studies only this document, they can reliably reconstruct the lecture content for exam preparation.
