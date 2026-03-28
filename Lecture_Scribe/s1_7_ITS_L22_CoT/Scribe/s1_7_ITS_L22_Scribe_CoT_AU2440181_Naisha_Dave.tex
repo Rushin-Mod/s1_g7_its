@@ -1,0 +1,339 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath, amssymb}
+
+\title{Lecture Scribe: Inequalities and Tail Bounds}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Tail of a Random Variable and Tail Probability}
+
+\subsection{Definition}
+
+The tail of a random variable $X$ is defined as:
+\[
+P(X > x)
+\]
+
+This represents the probability that the random variable takes a value greater than a threshold $x$.
+
+\section{Motivation for Studying Tail Events}
+
+\subsection{Why do we care about tails?}
+
+\begin{itemize}
+    \item Jobs delayed more than 24 hours
+    \item Packets dropped due to full buffer
+\end{itemize}
+
+These represent rare but critical events.
+
+\subsection{Key Idea}
+
+\begin{itemize}
+    \item Mean $\rightarrow$ average behavior (easy to analyze)
+    \item Tail $\rightarrow$ rare extreme events (hard to analyze)
+\end{itemize}
+
+\subsection{Why are tails hard to compute?}
+
+\begin{itemize}
+    \item Requires summing many small probabilities
+\end{itemize}
+
+\section{Exact Computation of Tail Probabilities}
+
+\subsection{Example 1: Binomial Case}
+
+Let:
+\[
+X \sim \text{Binomial}(n, p)
+\]
+
+We want:
+\[
+P(X \ge k)
+\]
+
+Exact computation:
+\[
+P(X \ge k) = \sum_{i=k}^{n} \binom{n}{i} p^i (1-p)^{n-i}
+\]
+
+\subsection{Example 2: Poisson Case}
+
+Let:
+\[
+X \sim \text{Poisson}(\lambda)
+\]
+
+Then:
+\[
+P(X \ge k) = \sum_{i=k}^{\infty} e^{-\lambda} \frac{\lambda^i}{i!}
+\]
+
+\subsection{Observation}
+
+\begin{itemize}
+    \item These are long, complicated summations
+    \item Hence exact computation is difficult
+\end{itemize}
+
+\newpage
+\section{Idea of Tail Bounds}
+
+\subsection{Motivation}
+
+Instead of computing exact values:
+
+\begin{itemize}
+    \item Find an upper bound
+    \item Easier to compute
+    \item Still provides a guarantee
+\end{itemize}
+
+\[
+P(X \ge k) \le \text{(simple expression)}
+\]
+
+\subsection{Key Idea}
+
+Approximate safely instead of computing exactly.
+
+\section{Running Example}
+
+\begin{itemize}
+    \item Flip a fair coin $n$ times
+    \item Let $X$ = number of heads
+\end{itemize}
+
+Distribution:
+\[
+X \sim \text{Binomial}(n, 1/2)
+\]
+
+Mean:
+\[
+E[X] = \frac{n}{2}
+\]
+
+Tail event:
+\[
+P\left(X \ge \frac{3n}{4}\right)
+\]
+
+Interpretation:
+
+This corresponds to getting unusually many heads.
+\newpage
+\section{Markov's Inequality}
+
+\subsection{Assumptions}
+
+\[
+X \ge 0
+\]
+
+\subsection{Statement}
+
+\[
+P(X \ge a) \le \frac{E[X]}{a}
+\]
+
+\subsection{Key Idea}
+
+\begin{itemize}
+    \item Uses only the mean
+    \item Large values are rare
+\end{itemize}
+
+\subsection{Proof}
+
+\begin{enumerate}
+    \item Write expectation:
+    \[
+    E[X] = \sum_x x \cdot P(X = x)
+    \]
+    
+    \item Restrict to values where $X \ge a$:
+    \[
+    E[X] \ge \sum_{x \ge a} x \cdot P(X = x)
+    \]
+    
+    \item Since $x \ge a$:
+    \[
+    E[X] \ge \sum_{x \ge a} a \cdot P(X = x)
+    \]
+    
+    \item Factor out $a$:
+    \[
+    E[X] \ge a \cdot P(X \ge a)
+    \]
+    
+    \item Rearranging:
+    \[
+    P(X \ge a) \le \frac{E[X]}{a}
+    \]
+\end{enumerate}
+
+\subsection{Example}
+
+If:
+\[
+E[X] = 10
+\]
+
+Then:
+\[
+P(X \ge 100) \le \frac{10}{100} = 0.1
+\]
+
+\section{Chebyshev's Inequality}
+
+\subsection{Assumptions}
+
+Mean $\mu$, variance $\sigma^2$
+
+\subsection{Statement}
+
+\[
+P(|X - \mu| \ge k) \le \frac{\sigma^2}{k^2}
+\]
+
+\subsection{Derivation}
+
+\begin{enumerate}
+    \item Let:
+    \[
+    Y = (X - \mu)^2 \ge 0
+    \]
+    
+    \item Apply Markov:
+    \[
+    P(Y \ge k^2) \le \frac{E[Y]}{k^2}
+    \]
+    
+    \item Since:
+    \[
+    E[Y] = \sigma^2
+    \]
+    
+    \item Hence:
+    \[
+    P((X - \mu)^2 \ge k^2) \le \frac{\sigma^2}{k^2}
+    \]
+    
+    \item Equivalent to:
+    \[
+    P(|X - \mu| \ge k) \le \frac{\sigma^2}{k^2}
+    \]
+\end{enumerate}
+\newpage
+\section{Chernoff Bound}
+
+\subsection{Goal}
+
+Provide exponentially tighter bounds.
+
+\subsection{Key Idea}
+
+\[
+P(X \ge a) = P(e^{tX} \ge e^{ta})
+\]
+
+Apply Markov:
+\[
+P(e^{tX} \ge e^{ta}) \le \frac{E[e^{tX}]}{e^{ta}}
+\]
+
+Thus:
+\[
+P(X \ge a) \le \frac{E[e^{tX}]}{e^{ta}}
+\]
+
+\subsection{Optimization}
+
+Choose $t$ to minimize the bound.
+
+\section{Poisson Tail Bounds}
+
+For:
+\[
+X \sim \text{Poisson}(\lambda)
+\]
+
+Exact:
+\[
+P(X \ge k) = \sum_{i=k}^{\infty} e^{-\lambda} \frac{\lambda^i}{i!}
+\]
+
+Instead, use Chernoff bounds.
+
+\section{Jensen's Inequality}
+
+\subsection{Definition}
+
+A function $f$ is convex if:
+\[
+f(\theta x + (1-\theta)y) \le \theta f(x) + (1-\theta)f(y)
+\]
+
+\subsection{Statement}
+
+\[
+f(E[X]) \le E[f(X)]
+\]
+
+\subsection{Example}
+
+If $f(x) = x^2$:
+\[
+(E[X])^2 \le E[X^2]
+\]
+
+\section{Connections}
+
+\subsection{Core Flow}
+
+\begin{enumerate}
+    \item Exact tails are hard
+    \item Use inequalities:
+    \begin{itemize}
+        \item Markov (mean)
+        \item Chebyshev (variance)
+        \item Chernoff (exponential)
+    \end{itemize}
+    \item Goal:
+    \[
+    P(X \ge k) \le \text{simple bound}
+    \]
+\end{enumerate}
+
+\subsection{Hierarchy}
+
+\begin{itemize}
+    \item Markov $\rightarrow$ weakest
+    \item Chebyshev $\rightarrow$ stronger
+    \item Chernoff $\rightarrow$ strongest
+\end{itemize}
+
+\section{Final Takeaways}
+
+\begin{itemize}
+    \item Tail probability: $P(X > x)$
+    \item Exact computation is difficult
+    \item Inequalities provide upper bounds
+    \item Markov $\rightarrow$ mean
+    \item Chebyshev $\rightarrow$ variance
+    \item Chernoff $\rightarrow$ exponential bounds
+    \item Jensen connects convexity and expectation
+\end{itemize}
+
+\[
+\text{Bound rare events instead of computing them exactly}
+\]
+
+\end{document}
