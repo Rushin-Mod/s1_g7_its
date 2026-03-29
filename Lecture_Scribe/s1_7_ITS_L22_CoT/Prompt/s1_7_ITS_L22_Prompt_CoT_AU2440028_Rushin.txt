@@ -1,0 +1,35 @@
+Generate a lecture scribe intended strictly for exam preparation for the course
+CSE 400: Fundamentals of Probability in Computing (School of engineering and applied sciences, Ahmedabad University).
+Strictly use only the provided context, which consists of:
+• Tail and Motivation of Tail Bound
+• Markov’s Inequality
+	• Definition and Proof
+	• Example
+• Chebyshive’s Inequality
+	• Definition and Proof
+	• Example
+• Chernof Bound and Poison Tail
+	• Definition and Proof
+	• Example
+• Jensen’s Inequality
+	• Convex Functions
+	• Proof and Example
+• Case Study and System Level Understanding
+Do not introduce any concepts, results, derivations, explanations, interpretations, or examples that do not appear in the provided context.
+While writing the lecture scribe, reason step by step and include the reasoning explicitly in the scribe for all of the following only when they appear in the context:
+• Tails
+• Markov’s Inequality
+• Chebyshev's Inequality
+• Chernoff Bound: Key Idea
+• Jensen's Inequality
+• Case Study: How to predict the worst case demands on server?
+Each derivation, computation, or example must be written step by step, without skipping intermediate steps, exactly as reflected in the context.
+Maintain the authenticity of mathematical equations.
+Organize the scribe using clear section headings and logical flow, so that a student can rely on this document alone for closed-notes exam revision.
+Do not:
+•	Add intuition, motivation, or commentary not stated in the lecture
+•	Simplify or reinterpret steps
+•	Introduce alternative methods or explanations
+•	Add new examples, exercises, or conclusions
+
+Important Note - Strictly follow the instructions as mentioned above.

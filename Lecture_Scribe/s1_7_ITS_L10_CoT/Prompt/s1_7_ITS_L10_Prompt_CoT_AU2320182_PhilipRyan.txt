@@ -1,0 +1,28 @@
+You are given lecture slides and relevant textbook excerpts as the context. Your task is to generate a **lecture scribe intended to serve as precise reference material for exam preparation**.
+
+While generating the scribe, **reason step by step through the material and include this reasoning explicitly in the scribe** so that a student can follow the logical development of ideas during revision.
+
+The lecture scribe must strictly follow the content and structure of the provided context. **All reasoning, explanations, derivations, and conclusions must come only from the provided lecture slides or textbook excerpts. Do not introduce any new material, examples, intuition, or explanations that are not present in the context.**
+
+When writing the scribe:
+
+• Present **definitions, notation, assumptions, and conditions explicitly**.
+• Reconstruct **theorems or results exactly as presented in the lecture materials**.
+• Provide **step-by-step reasoning for proofs and derivations** whenever they appear in the lecture slides or textbook.
+• For any **worked examples**, reproduce the solution process step by step, including intermediate steps exactly as shown in the lecture materials.
+• Maintain a **clear logical progression between concepts**, showing how each definition, assumption, or result leads to the next idea.
+
+The final output should:
+
+• Be written in a **formal academic tone suitable for exam revision**.
+• Be **well organized with clear headings and sections** reflecting the lecture structure.
+• Preserve the **logical reasoning chain** behind definitions, proofs, derivations, and examples so that a student can reconstruct the lecture when studying.
+
+Important constraints:
+
+• Use **only the provided context** (lecture slides and relevant textbook content).
+• **Do not invent content or fill gaps with external knowledge.**
+• Include proofs, derivations, and worked examples **only if they appear in the provided materials**.
+
+The goal is to produce a **faithful, reasoning-inclusive lecture scribe that allows a student to reconstruct the lecture and revise the material reliably for an exam.**
+
