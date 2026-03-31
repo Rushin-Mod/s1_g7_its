@@ -1,0 +1,530 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath, amssymb}
+\usepackage[a4paper, margin=1in]{geometry}
+
+\begin{document}
+
+\section*{Slide 1: Title Slide}
+\textbf{CSE400 - Fundamentals of Probability in Computing} \\
+\textbf{Lecture 21 and L22: Inequalities and Tail Bound} \\
+Instructor: \textbf{Dhaval Patel, PhD} \\
+Affiliation: SEAS, Ahmedabad University \\
+Date: March 24 and 26, 2025  
+
+\section*{Slide 2: Acknowledgement}
+Acknowledgement to:  
+\begin{itemize}
+\item Mor Harchol-Balter, PhD  
+\item J. Nelson Professor of Computer Science  
+\item Carnegie Mellon University  
+\end{itemize}
+
+Reference Book:  
+\begin{itemize}
+\item \textit{Introduction to Probability for Computing}  
+\item Publisher: Cambridge University Press (2024)  
+\item ISBN: 978-1-009-30907-3  
+\end{itemize}
+
+\section*{Slide 3: Outline}
+\begin{enumerate}
+\item Tail and Motivation of Tail Bound  
+\item Markov’s Inequality  
+\begin{itemize}
+\item Definition and Proof  
+\item Example  
+\end{itemize}
+\item Chebyshev’s Inequality  
+\begin{itemize}
+\item Definition and Proof  
+\item Example  
+\end{itemize}
+\item Chernoff Bound and Poisson Tail  
+\begin{itemize}
+\item Definition and Proof  
+\item Example  
+\end{itemize}
+\item Jensen’s Inequality  
+\begin{itemize}
+\item Convex Functions  
+\item Proof and Example  
+\end{itemize}
+\item Case Study and System-Level Understanding  
+\end{enumerate}
+
+\section*{Slide 4: Tails – Definition}
+\textbf{Definition:}  
+The tail of a random variable \( X \) is:
+\[
+P(X > x)
+\]
+
+\section*{Slide 5: Tails – Motivation}
+\textbf{Why do we care about tails?}
+\begin{itemize}
+\item Jobs delayed more than 24 hours  
+\item Packets dropped due to full buffer  
+\end{itemize}
+
+\section*{Slide 6: Tails – Key Idea}
+\textbf{Key idea:}
+\begin{itemize}
+\item Mean $\rightarrow$ average behavior (easy)  
+\item Tail $\rightarrow$ rare extreme events (hard)  
+\end{itemize}
+
+\section*{Slide 7: Tails – Difficulty}
+\textbf{Why are tails hard to compute?}
+\begin{itemize}
+\item Requires summing many small probabilities  
+\end{itemize}
+
+\section*{Slide 8–10: Tails Example 1 (Binomial Case)}
+\textbf{Question:}  
+Suppose you are distributing \( n \) jobs among \( n \) servers at random.  
+What is the probability that a particular server gets \( \geq k \) jobs?
+
+\textbf{Intuition:}
+\begin{itemize}
+\item Jobs are assigned randomly  
+\item Most servers get few jobs  
+\item Occasionally, one server gets many jobs  
+\end{itemize}
+
+This is a \textbf{tail event (rare overload)}  
+
+\textbf{Model:}
+\[
+X \sim \text{Binomial}(n, p)
+\]
+
+\textbf{Exact Tail Probability:}
+\[
+P(X \ge k) = \sum_{i=k}^{n} \binom{n}{i} p^i (1-p)^{n-i}
+\]
+
+\section*{Slide 11–13: Tails Example 2 (Poisson Case)}
+\textbf{Question:}  
+Jobs arrive according to a Poisson process with rate \( \lambda \).  
+What is the probability that \( \geq k \) jobs arrive in one hour?
+
+\textbf{Intuition:}
+\begin{itemize}
+\item Jobs arrive randomly over time  
+\item Most hours have moderate arrivals  
+\item Sometimes bursts occur  
+\end{itemize}
+
+This is a \textbf{tail event (sudden spike in load)}  
+
+\textbf{Model:}
+\[
+X \sim \text{Poisson}(\lambda)
+\]
+
+\textbf{Exact Tail Probability:}
+\[
+P(X \ge k) = \sum_{i=k}^{\infty} e^{-\lambda} \frac{\lambda^i}{i!}
+\]
+
+\section*{Slide 14: Why Tail Bounds?}
+Exact tail probabilities:
+\[
+P(X \ge k) = \sum_{i=k}^{\infty} e^{-\lambda} \frac{\lambda^i}{i!}
+\]
+\[
+P(X \ge k) = \sum_{i=k}^{n} \binom{n}{i} p^i (1-p)^{n-i}
+\]
+
+\textbf{Observation:}
+\begin{itemize}
+\item These are complicated, long sums  
+\end{itemize}
+
+\section*{Slide 15: Idea of Tail Bounds}
+Instead of computing exact value:
+\begin{itemize}
+\item Find an \textbf{upper bound}  
+\item Easier to compute  
+\item Still gives a guarantee  
+\end{itemize}
+
+\textbf{Goal:}
+\[
+\text{Exact: } P(X \ge k) = ?
+\]
+\[
+\text{Bound: } P(X \ge k) \le \text{simple expression}
+\]
+
+\textbf{Key Idea:}  
+Approximate safely instead of computing exactly  
+
+\section*{Slide 16–17: Running Example Setup}
+We will evaluate different bounds on the same example.
+
+\textbf{Experiment:}
+\begin{itemize}
+\item Flip a fair coin \( n \) times  
+\end{itemize}
+
+\textbf{Distribution:}
+\[
+X = \text{number of heads}
+\]
+\[
+X \sim \text{Binomial}(n, \tfrac{1}{2})
+\]
+
+\textbf{Mean:}
+\[
+E[X] = \frac{n}{2}
+\]
+
+\textbf{Question:}
+\[
+P\left(X \ge \frac{3n}{4}\right)
+\]
+
+\section*{Slide 18: Markov’s Inequality – Definition}
+\textbf{Key Idea:}
+\begin{itemize}
+\item Uses only the mean  
+\item Large values are rare  
+\end{itemize}
+
+\textbf{Markov Inequality:}
+\[
+P(X \ge a) \le \frac{E[X]}{a}
+\]
+
+\section*{Slide 19: Markov’s Inequality – Proof}
+Consider:
+\[
+E[X] = \sum_{x=0}^{\infty} x \cdot p_X(x)
+\]
+
+Restrict to \( x \ge a \):
+\[
+E[X] \ge \sum_{x=a}^{\infty} x \cdot p_X(x)
+\]
+
+Replace \( x \ge a \) with \( a \):
+\[
+\ge \sum_{x=a}^{\infty} a \cdot p_X(x)
+\]
+\[
+= a \sum_{x=a}^{\infty} p_X(x)
+\]
+\[
+= a \cdot P(X \ge a)
+\]
+
+Thus:
+\[
+E[X] \ge a \cdot P(X \ge a)
+\]
+\[
+P(X \ge a) \le \frac{E[X]}{a}
+\]
+
+\section*{Slide 20–21: Markov on Running Example}
+\[
+X \sim \text{Binomial}(n, \tfrac{1}{2}), \quad E[X] = \frac{n}{2}
+\]
+
+We want:
+\[
+P\left(X \ge \frac{3n}{4}\right)
+\]
+
+Apply Markov:
+\[
+P\left(X \ge \frac{3n}{4}\right) \le \frac{E[X]}{3n/4}
+\]
+\[
+= \frac{n/2}{3n/4}
+\]
+\[
+= \frac{2}{3}
+\]
+
+\textbf{Observation:}  
+This is a poor bound (does not depend on \( n \))  
+
+\section*{Slide 22–24: Markov Real-Life Example}
+\textbf{Scenario:} Income distribution  
+\[
+E[X] = 10,000
+\]
+
+\textbf{Question:}  
+Fraction earning \( \ge 50,000 \)
+
+Apply Markov:
+\[
+P(X \ge 50,000) \le \frac{10,000}{50,000}
+\]
+\[
+= 0.2
+\]
+
+\textbf{Result:}  
+At most 20\% of people earn $\ge 50,000$  
+
+\section*{Slide 25–29: Markov Solved Example 1}
+\textbf{Problem:}  
+Average grade = 70, A-grade cutoff = 90  
+
+\subsection*{Step 1}
+Let \( X \ge 0 \), \( E[X] = 70 \)
+
+\subsection*{Step 2}
+Markov inequality:
+\[
+P(X \ge a) \le \frac{E[X]}{a}
+\]
+
+\subsection*{Step 3}
+Substitute:
+\[
+P(X \ge 90) \le \frac{70}{90}
+\]
+
+\subsection*{Step 4}
+Simplify:
+\[
+= \frac{7}{9}
+\]
+
+\textbf{Result}
+\[
+P(X \ge 90) \le 0.778
+\]
+
+\section*{Slide 30–34: Markov Solved Example 2}
+\textbf{Problem:}  
+Average requests = 5000/sec  
+Find \( P(X \ge 20,000) \)
+
+\subsection*{Step 1}
+\( E[X] = 5000 \)
+
+\subsection*{Step 2}
+\( a = 20,000 \)
+
+\subsection*{Step 3}
+\[
+P(X \ge a) \le \frac{E[X]}{a}
+\]
+
+\subsection*{Step 4}
+\[
+P(X \ge 20,000) \le \frac{5000}{20,000}
+\]
+\[
+= \frac{1}{4}
+\]
+
+\textbf{Result}
+\[
+P(X \ge 20,000) \le 0.25
+\]
+
+\section*{Slide 35: Markov Homework Problem}
+Given:  
+\( E[X] = 40,000 \)
+
+(a) Bound \( P(X \ge 120,000) \)  
+
+(b) Can Markov bound \( P(X < 10,000) \)?  
+
+Hint:  
+Markov applies to right tail \( P(X \ge a) \)  
+
+\section*{Slide 36–38: Chebyshev’s Inequality}
+\textbf{Key Idea:}
+\begin{itemize}
+\item Uses mean + variance  
+\item Controls deviation from mean  
+\end{itemize}
+
+\textbf{Chebyshev Inequality:}
+\[
+P(|X - \mu| \ge a) \le \frac{\text{Var}(X)}{a^2}
+\]
+
+\textbf{Proof Idea:}
+\[
+P(|X - \mu| \ge a) = P((X - \mu)^2 \ge a^2)
+\]
+\[
+\le \frac{E[(X - \mu)^2]}{a^2}
+\]
+\[
+= \frac{\text{Var}(X)}{a^2}
+\]
+
+\section*{Slide 39: Chebyshev on Running Example}
+\[
+X \sim \text{Binomial}(n, \tfrac{1}{2})
+\]
+\[
+\mu = \frac{n}{2}, \quad \text{Var}(X) = \frac{n}{4}
+\]
+\[
+P\left(X \ge \frac{3n}{4}\right)
+= P\left(X - \frac{n}{2} \ge \frac{n}{4}\right)
+\]
+\[
+\le P\left(|X - \mu| \ge \frac{n}{4}\right)
+\]
+\[
+\le \frac{n/4}{(n/4)^2}
+= \frac{1}{n}
+\]
+
+\section*{Slide 40–42: Chebyshev Real-Life Example}
+Given:
+\[
+\mu = 70, \quad \sigma = 10
+\]
+
+\[
+P(X \le 40 \text{ or } X \ge 100)
+= P(|X - 70| \ge 30)
+\]
+
+\[
+\le \frac{10^2}{30^2}
+= \frac{100}{900}
+= \frac{1}{9}
+\]
+
+\textbf{Result:}  
+At most \( \frac{1}{9} \) students are far from mean  
+
+\section*{Slide 43–47: Chebyshev Solved Example 1}
+Given:
+\[
+\mu = 70, \quad \sigma = 5 \Rightarrow \sigma^2 = 25
+\]
+
+\[
+P(X \ge 90) \le P(|X - 70| \ge 20)
+\]
+
+\[
+\le \frac{25}{400}
+= \frac{1}{16}
+\]
+
+\textbf{Result}
+\[
+P(X \ge 90) \le 0.0625
+\]
+
+\section*{Slide 48–52: Chebyshev Solved Example 2}
+Given:
+\[
+\mu = 50, \quad \sigma^2 = 16
+\]
+
+\[
+X \notin [30, 70] \Rightarrow |X - 50| \ge 20
+\]
+
+\[
+\le \frac{16}{400}
+= \frac{1}{25}
+\]
+
+\textbf{Result}
+\[
+P(|X - 50| \ge 20) \le 0.04
+\]
+
+\section*{Slide 53: Chebyshev Homework}
+Given:
+\[
+\mu = 100, \quad \sigma = 2
+\]
+
+Defective if:
+\[
+|X - 100| > 6
+\]
+
+\[
+P(|X - \mu| \ge a) \le \frac{\sigma^2}{a^2}
+\]
+
+\section*{Slide 54–58: Chernoff Bound – Key Idea}
+\begin{itemize}
+\item Markov $\rightarrow$ uses \( X \)  
+\item Chebyshev $\rightarrow$ uses \( (X - \mu)^2 \)  
+\item Chernoff $\rightarrow$ uses \( e^{tX} \)  
+\end{itemize}
+
+\textbf{Insight:}
+\begin{itemize}
+\item Exponential grows very fast  
+\item Large values amplified  
+\item Tail events amplified  
+\end{itemize}
+
+\textbf{Better transformation ⇒ tighter bound}
+
+\section*{Slide 59–61: Chernoff Core Trick}
+\[
+P(X \ge a) = P(e^{tX} \ge e^{ta})
+\]
+
+\[
+P(e^{tX} \ge e^{ta}) \le \frac{E[e^{tX}]}{e^{ta}}
+\]
+
+\section*{Slide 62–64: Chernoff Bound (Final Form)}
+\[
+P(X \ge a) \le \min_{t > 0} \left\{ \frac{E[e^{tX}]}{e^{ta}} \right\}
+\]
+
+\textbf{Key Insight:}
+\begin{itemize}
+\item Holds for all \( t > 0 \)  
+\item Choose best \( t \) → tightest bound  
+\end{itemize}
+
+\textbf{Much stronger than Markov \& Chebyshev}
+
+\section*{Slide 65–68: Chernoff Lower Tail}
+\[
+P(X \le a) = P(e^{tX} \ge e^{ta})
+\]
+
+\[
+P(X \le a) \le \min_{t<0} \left\{ \frac{E[e^{tX}]}{e^{ta}} \right\}
+\]
+
+\section*{Slide 69–70: Chernoff for Poisson Tail}
+\[
+X \sim \text{Poisson}(\lambda)
+\]
+
+\[
+E[e^{tX}] = \sum_{i=0}^{\infty} e^{ti} \cdot \frac{e^{-\lambda}\lambda^i}{i!}
+\]
+
+\[
+= e^{-\lambda} \sum_{i=0}^{\infty} \frac{(\lambda e^t)^i}{i!}
+\]
+
+\[
+= e^{-\lambda} e^{\lambda e^t}
+\]
+
+\[
+= e^{\lambda(e^t - 1)}
+\]
+
+\end{document}
